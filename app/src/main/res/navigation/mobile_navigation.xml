@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/navigation_calendar">
+
+    <fragment
+        android:id="@+id/navigation_calendar"
+        android:name="com.example.shiftcalendar.ui.calendar.CalendarFragment"
+        android:label="@string/title_calendar"
+        tools:layout="@layout/fragment_calendar" />
+
+    <fragment
+        android:id="@+id/navigation_summary"
+        android:name="com.example.shiftcalendar.ui.dashboard.DashboardFragment"
+        android:label="@string/title_summary"
+        tools:layout="@layout/fragment_dashboard" />
+
+    <fragment
+        android:id="@+id/navigation_shifts"
+        android:name="com.example.shiftcalendar.ui.notifications.NotificationsFragment"
+        android:label="@string/title_shifts"
+        tools:layout="@layout/fragment_notifications" />
+</navigation>

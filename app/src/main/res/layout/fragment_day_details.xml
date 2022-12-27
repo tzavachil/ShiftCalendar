@@ -1,0 +1,687 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DayDetailsFragment"
+    android:paddingBottom="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <View
+            android:id="@+id/slide_line"
+            android:layout_width="50dp"
+            android:layout_height="4dp"
+            android:background="@drawable/slide_line"
+            android:layout_marginTop="15dp"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginVertical="10dp"
+                android:textSize="20dp"
+                android:textStyle="bold"/>
+
+            <ImageButton
+                android:id="@+id/notesAddButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:scaleX="1.25"
+                android:scaleY="1.25"
+                android:src="@drawable/ic_notes"
+                android:background="@android:color/transparent"/>
+
+            <ImageButton
+                android:id="@+id/notesRemoveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="20dp"
+                android:scaleX="1.25"
+                android:scaleY="1.25"
+                android:src="@drawable/ic_remove_notes"
+                android:background="@android:color/transparent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        
+        <EditText
+            android:id="@+id/notesPlainText"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="35dp"
+            android:inputType="text"/>
+        
+        <Spinner
+            android:id="@+id/shiftSpinner"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="35dp"
+            android:background="@drawable/spinner"/>
+
+        <LinearLayout
+            android:id="@+id/shiftTimeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_gray_view"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="10dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginEnd="25dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16dp">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/startShiftTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="07:00"
+                        android:textSize="16dp"
+                        android:clickable="true">
+                    </TextView>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginEnd="25dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16dp">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/endShiftTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="15:00"
+                        android:textSize="16dp"
+                        android:clickable="true">
+                    </TextView>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/shiftTimeLine"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="25dp"
+                    android:background="@drawable/slide_line" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Shift Time"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16dp">
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            android:id="@+id/shiftTimeHours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:text="0 h"
+                            android:textSize="16dp">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/shiftTimeMin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="0 m"
+                            android:textSize="16dp">
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/earlyExitLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_gray_view"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="10dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginEnd="25dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Early Exit"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16dp">
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/earlyExitHours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/rounded_white_view"
+                            android:text=""
+                            android:textSize="16dp"
+                            android:inputType="number">
+                        </EditText>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="h"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:textSize="16dp">
+                        </TextView>
+                        <EditText
+                            android:id="@+id/earlyExitMin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_white_view"
+                            android:paddingHorizontal="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:text=""
+                            android:textSize="16dp"
+                            android:inputType="number">
+                        </EditText>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="m"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="16dp">
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/earlyExitLine"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="25dp"
+                    android:background="@drawable/slide_line"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16dp">
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            android:id="@+id/earlyExitTimeTextHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:text="0 h"
+                            android:textSize="16dp">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/earlyExitTimeTextMin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="0 m"
+                            android:textSize="16dp">
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/extraTimeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginBottom="10dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_gray_view"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="10dp"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/ll3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_marginEnd="25dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Extra Time"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16dp">
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <EditText
+                            android:id="@+id/extraTimeHours"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingHorizontal="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/rounded_white_view"
+                            android:text=""
+                            android:textSize="16dp"
+                            android:inputType="number">
+                        </EditText>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="h"
+                            android:layout_marginBottom="5dp"
+                            android:layout_marginEnd="5dp"
+                            android:textSize="16dp">
+                        </TextView>
+                        <EditText
+                            android:id="@+id/extraTimeMin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/rounded_white_view"
+                            android:paddingHorizontal="15dp"
+                            android:layout_marginEnd="5dp"
+                            android:text=""
+                            android:textSize="16dp"
+                            android:inputType="number">
+                        </EditText>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="m"
+                            android:layout_marginBottom="5dp"
+                            android:textSize="16dp">
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/extraTimeLine"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/slide_line"
+                    android:layout_marginEnd="25dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Time"
+                        android:layout_marginBottom="5dp"
+                        android:textSize="16dp">
+                    </TextView>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center">
+                        <TextView
+                            android:id="@+id/extraTimeTextHour"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:text="0 h"
+                            android:textSize="16dp">
+                        </TextView>
+                        <TextView
+                            android:id="@+id/extraTimeTextMin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="2dp"
+                            android:text="0 m"
+                            android:textSize="16dp">
+                        </TextView>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/totalTimeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_gray_view"
+            android:paddingVertical="5dp"
+            android:paddingHorizontal="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/totalTimeTV"
+                android:text="Total Time"
+                android:textSize="16dp"/>
+
+            <LinearLayout
+                android:id="@+id/totalTimeTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="5dp"
+                android:orientation="horizontal"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/totalTimeTVHour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:text="0 h"
+                    android:textSize="16dp">
+                </TextView>
+                <TextView
+                    android:id="@+id/totalTimeTVMin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:text="0 m"
+                    android:textSize="16dp">
+                </TextView>
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/incomeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginHorizontal="35dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"
+            android:background="@drawable/rounded_gray_view"
+            android:paddingVertical="10dp"
+            android:paddingHorizontal="10dp"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:text="Incomes"
+                android:textSize="16dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <EditText
+                        android:id="@+id/incomePerHour"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:paddingHorizontal="15dp"
+                        android:background="@drawable/rounded_white_view"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:inputType="numberDecimal">
+                    </EditText>
+
+                    <EditText
+                        android:id="@+id/incomePerExtraHour"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="center"
+                        android:paddingHorizontal="15dp"
+                        android:background="@drawable/rounded_white_view"
+                        android:text=""
+                        android:textSize="16dp"
+                        android:inputType="numberDecimal">
+                    </EditText>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingStart="5dp"
+                        android:gravity="start"
+                        android:text="€ per hour"
+                        android:textSize="16dp">
+                    </TextView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
+                        android:gravity="start"
+                        android:paddingStart="5dp"
+                        android:paddingEnd="10dp"
+                        android:text="€ per extra hour"
+                        android:textSize="16dp">
+                    </TextView>
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/incomeLine"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/slide_line"
+                    android:layout_marginEnd="25dp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <TextView
+                        android:id="@+id/incomePerHourTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="32 €"
+                        android:textSize="16dp">
+                    </TextView>
+                    <TextView
+                        android:id="@+id/incomePerExtraHourTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="11 €"
+                        android:textSize="16dp">
+                    </TextView>
+                </LinearLayout>
+
+            </LinearLayout>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                android:paddingHorizontal="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="extra Income"
+                    android:textSize="16dp"/>
+
+                <EditText
+                    android:id="@+id/extraIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="15dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:background="@drawable/rounded_white_view"
+                    android:text=""
+                    android:textSize="16dp"
+                    android:inputType="numberDecimal">
+                </EditText>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="€"
+                    android:textSize="16dp"/>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/horizontalLine"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/slide_line"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                android:paddingHorizontal="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Income"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/totalIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingHorizontal="15dp"
+                    android:layout_marginHorizontal="5dp"
+                    android:text="0"
+                    android:textSize="16dp"
+                    android:inputType="number">
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="€"
+                    android:textSize="16dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
