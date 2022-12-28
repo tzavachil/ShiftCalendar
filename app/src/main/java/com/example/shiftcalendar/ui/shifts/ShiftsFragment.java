@@ -1,4 +1,4 @@
-package com.example.shiftcalendar.ui.notifications;
+package com.example.shiftcalendar.ui.shifts;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.shiftcalendar.databinding.FragmentNotificationsBinding;
+import com.example.shiftcalendar.databinding.FragmentShiftsBinding;
 
-public class NotificationsFragment extends Fragment {
+public class ShiftsFragment extends Fragment {
 
-    private FragmentNotificationsBinding binding;
+    private FragmentShiftsBinding binding;
 
-    public NotificationsFragment(){}
+    public ShiftsFragment(){}
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentShiftsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         return root;

@@ -16,9 +16,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shiftcalendar.R;
+import com.example.shiftcalendar.Shift;
 import com.example.shiftcalendar.ShiftDayList;
 import com.example.shiftcalendar.databinding.FragmentCalendarBinding;
-import com.example.shiftcalendar.Shift;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

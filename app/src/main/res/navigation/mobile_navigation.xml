@@ -13,13 +13,13 @@
 
     <fragment
         android:id="@+id/navigation_summary"
-        android:name="com.example.shiftcalendar.ui.dashboard.DashboardFragment"
+        android:name="com.example.shiftcalendar.ui.summary.SummaryFragment"
         android:label="@string/title_summary"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_summary" />
 
     <fragment
         android:id="@+id/navigation_shifts"
-        android:name="com.example.shiftcalendar.ui.notifications.NotificationsFragment"
+        android:name="com.example.shiftcalendar.ui.shifts.ShiftsFragment"
         android:label="@string/title_shifts"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_shifts" />
 </navigation>

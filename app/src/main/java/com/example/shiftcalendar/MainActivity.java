@@ -11,8 +11,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.example.shiftcalendar.databinding.ActivityMainBinding;
 import com.example.shiftcalendar.ui.calendar.CalendarFragment;
-import com.example.shiftcalendar.ui.dashboard.DashboardFragment;
-import com.example.shiftcalendar.ui.notifications.NotificationsFragment;
+import com.example.shiftcalendar.ui.shifts.ShiftsFragment;
+import com.example.shiftcalendar.ui.summary.SummaryFragment;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new CalendarFragment(this.shiftList, this.shiftDayList));
                     break;
                 case R.id.navigation_summary:
-                    replaceFragment(new DashboardFragment());
+                    replaceFragment(new SummaryFragment());
                     break;
                 case R.id.navigation_shifts:
-                    replaceFragment(new NotificationsFragment());
+                    replaceFragment(new ShiftsFragment());
                     break;
             }
 
