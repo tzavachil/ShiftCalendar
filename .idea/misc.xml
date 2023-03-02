@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.2845" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/drawable/icons_colors.xml" value="0.334" />
+        <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/drawable/rectangle.xml" value="0.2845" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/drawable/red_round_border.xml" value="0.2845" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/drawable/rounded_gray_view.xml" value="0.319" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/drawable/rounded_shape.xml" value="0.334" />
@@ -25,7 +26,9 @@
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/layout/fragment_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/layout/fragment_notifications.xml" value="0.36666666666666664" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/layout/fragment_scrolling.xml" value="0.33" />
+        <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/layout/fragment_shifts.xml" value="0.36666666666666664" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/layout/item_shift.xml" value="0.365625" />
+        <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/layout/shift_list_layout.xml" value="0.365625" />
         <entry key="..\:/Programming/AndroidProjects/ShiftCalendar/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />
         <entry key="..\:/Programming/ShiftCalendar/app/src/main/res/layout/activity_main.xml" value="0.358695652173913" />
         <entry key="..\:/Programming/ShiftCalendar/app/src/main/res/menu/bottom_nav_menu.xml" value="0.36666666666666664" />

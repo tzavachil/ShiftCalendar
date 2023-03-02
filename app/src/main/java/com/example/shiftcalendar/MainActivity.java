@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new SummaryFragment());
                     break;
                 case R.id.navigation_shifts:
-                    replaceFragment(new ShiftsFragment());
+                    replaceFragment(new ShiftsFragment(this.shiftList));
                     break;
             }
 
