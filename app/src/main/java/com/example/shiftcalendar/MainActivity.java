@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private static ArrayList<Shift> shiftList;
+    public static ArrayList<Shift> shiftList;
     private ShiftDayList shiftDayList;
     public static int lightGray;
 

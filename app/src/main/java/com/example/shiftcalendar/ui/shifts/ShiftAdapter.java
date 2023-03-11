@@ -1,26 +1,37 @@
 package com.example.shiftcalendar.ui.shifts;
 
-import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 
+import com.example.shiftcalendar.MainActivity;
 import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.Shift;
+import com.example.shiftcalendar.ui.ShiftDetailsBottomSheet;
 
 import java.util.ArrayList;
 
 public class ShiftAdapter extends ArrayAdapter<Shift> {
 
-    private ConstraintLayout shiftItemLayout;
+    private Fragment rootFragment;
+    private ArrayList<Shift> shifts;
 
-    public ShiftAdapter(Context context, ArrayList<Shift> shifts){
-        super(context, 0, shifts);
+    private ConstraintLayout shiftItemLayout;
+    private ImageButton deleteShiftButton;
+    private ImageButton duplicateShiftButton;
+
+    public ShiftAdapter(Fragment rootFragment, ArrayList<Shift> shifts){
+        super(rootFragment.getContext(), 0, shifts);
+        this.rootFragment = rootFragment;
+        this.shifts = shifts;
     }
 
     @Override
@@ -35,9 +46,44 @@ public class ShiftAdapter extends ArrayAdapter<Shift> {
         GradientDrawable layoutBackground = (GradientDrawable) this.shiftItemLayout.getBackground();
         layoutBackground.setStroke(3, shift.getLineColor());
         TextView shiftNameTextView = (TextView) convertView.findViewById(R.id.shiftItemName);
+        this.deleteShiftButton = (ImageButton) convertView.findViewById(R.id.deleteShiftButton);
+        this.duplicateShiftButton = (ImageButton) convertView.findViewById(R.id.duplicateShiftButton);
+        this.setUpListeners(position, shift);
         shiftNameTextView.setText(shift.getName());
 
         return convertView;
+    }
+
+    private void setUpListeners(int position, Shift currShift){
+        this.shiftItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ShiftDetailsBottomSheet shiftDetailsBottomSheet = new ShiftDetailsBottomSheet(currShift);
+                shiftDetailsBottomSheet.show(rootFragment.getActivity().getSupportFragmentManager(), "TAG");
+            }
+        });
+        this.deleteShiftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.shiftList.remove(currShift);
+                shifts.remove(currShift);
+                notifyDataSetChanged();
+            }
+        });
+
+        this.duplicateShiftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Shift newShift = new Shift(currShift);
+                newShift.setName(currShift.getName() + " - Duplicate");
+                Log.d("Debug", "" + MainActivity.shiftList.contains(newShift));
+                if(!MainActivity.shiftList.contains(newShift)) {
+                    MainActivity.shiftList.add(position + 1, newShift);
+                    shifts.add(position + 1, newShift);
+                    notifyDataSetChanged();
+                }
+            }
+        });
     }
 
 }

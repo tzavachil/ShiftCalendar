@@ -34,6 +34,30 @@ public class Shift {
         this.incomePerExtraHour = 0;
     }
 
+    public Shift(Shift s){
+        this.name = s.getName();
+        this.lineColor = s.getLineColor();
+        this.backgroundColor = s.getBackgroundColor();
+        this.startTime = s.getStartTime();
+        this.endTime = s.getEndTime();
+        this.incomePerHour = s.incomePerHour;
+        this.incomePerExtraHour = s.getIncomePerExtraHour();
+    }
+
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    public boolean equals(Object o){
+        if(this == o) return true;
+        if(o == null || getClass() != o.getClass()) return false;
+        Shift s = (Shift) o;
+        return this.name.equals(s.getName());
+    }
+
     public String getName() {return name;}
 
     public void setName(String name) {this.name = name;}
