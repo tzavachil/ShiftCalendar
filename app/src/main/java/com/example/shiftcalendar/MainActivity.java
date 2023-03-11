@@ -22,11 +22,14 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private ArrayList<Shift> shiftList;
     private ShiftDayList shiftDayList;
+    public static int lightGray;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        lightGray = getResources().getColor(R.color.light_grey);
 
         shiftList = new ArrayList<>();
         this.initializingShifts();
