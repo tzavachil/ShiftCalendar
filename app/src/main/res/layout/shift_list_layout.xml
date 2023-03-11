@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/shiftItemLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
+    android:padding="3dp"
     android:background="@drawable/rounded_gray_view">
 
     <TextView
         android:id="@+id/shiftItemName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:padding="5dp"
+        android:layout_marginStart="7dp"
         android:text="Shift 1"
         android:textSize="20dp"/>
 
+    <ImageButton
+        android:id="@+id/deleteShiftButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_remove_notes"/>
 
-</LinearLayout>
+    <ImageButton
+        android:id="@+id/duplicateShiftButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/deleteShiftButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/ic_duplicate_shift"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

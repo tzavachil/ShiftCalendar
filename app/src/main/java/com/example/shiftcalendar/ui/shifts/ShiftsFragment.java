@@ -35,7 +35,10 @@ public class ShiftsFragment extends Fragment {
         //initializing elements
         this.shiftListView = (ListView) root.findViewById(R.id.shiftListView);
 
-        ShiftAdapter shiftAdapter = new ShiftAdapter(this.getContext(), this.shiftList);
+        ArrayList<Shift> newShiftList = this.shiftList;
+        if(newShiftList.get(0).getName().equals(""))
+            newShiftList.remove(0);
+        ShiftAdapter shiftAdapter = new ShiftAdapter(this.getContext(), newShiftList);
 
         this.shiftListView.setAdapter(shiftAdapter);
 

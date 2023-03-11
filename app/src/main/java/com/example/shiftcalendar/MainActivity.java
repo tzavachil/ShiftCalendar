@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
-    private ArrayList<Shift> shiftList;
+    private static ArrayList<Shift> shiftList;
     private ShiftDayList shiftDayList;
     public static int lightGray;
 
@@ -62,10 +62,10 @@ public class MainActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void initializingShifts(){
         Shift emptyShift = new Shift(this);
-        Shift shift1 = new Shift("Shift1", getResources().getColor(R.color.blue), new Time(7,0,0), new Time(15, 0, 0), 4.0, 4.4);
-        Shift shift2 = new Shift("Shift2", getResources().getColor(R.color.red), new Time(6,0,0), new Time(14, 0, 0), 0, 0);
-        Shift shift3 = new Shift("Shift3", getResources().getColor(R.color.green), new Time(15,0,0), new Time(23, 0, 0), 4.0, 4.4);
-        Shift shift4 = new Shift("Shift4", getResources().getColor(R.color.orange), new Time(14,0,0), new Time(22, 0, 0), 1, 2);
+        Shift shift1 = new Shift("Shift 1", getResources().getColor(R.color.blue), new Time(7,0,0), new Time(15, 0, 0), 4.0, 4.4);
+        Shift shift2 = new Shift("Shift 2", getResources().getColor(R.color.red), new Time(6,0,0), new Time(14, 0, 0), 0, 0);
+        Shift shift3 = new Shift("Shift 3", getResources().getColor(R.color.green), new Time(15,0,0), new Time(23, 0, 0), 4.0, 4.4);
+        Shift shift4 = new Shift("Shift 4", getResources().getColor(R.color.orange), new Time(14,0,0), new Time(22, 0, 0), 1, 2);
 
         this.shiftList.add(emptyShift);
         this.shiftList.add(shift1);
