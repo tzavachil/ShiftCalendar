@@ -122,7 +122,9 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
             }
         };
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getContext(), onTimeSetListener, hour, minute, true);
+        int initialHour = Integer.parseInt(textView.getText().toString().split(":")[0]);
+        int initialMin = Integer.parseInt(textView.getText().toString().split(":")[1]);
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this.getContext(), onTimeSetListener, initialHour, initialMin, true);
 
         timePickerDialog.setTitle("Select Time");
         timePickerDialog.show();
