@@ -38,6 +38,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
     private TextView endShiftTime;
     private TextView shiftTimeHours;
     private TextView shiftTimeMinutes;
+    private TextView incomePerHourTV;
 
     private LinearLayout shiftTimeLayout;
     private LinearLayout incomeLayout;
@@ -61,12 +62,19 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
         this.endShiftTime = view.findViewById(R.id.endShiftTime);
         this.shiftTimeHours = view.findViewById(R.id.shiftTimeHours);
         this.shiftTimeMinutes = view.findViewById(R.id.shiftTimeMin);
+        this.incomePerHourTV = view.findViewById(R.id.incomePerHourTV);
         this.shiftTimeLayout = view.findViewById(R.id.shiftTimeLayout);
         this.incomeLayout = view.findViewById(R.id.incomeLayout);
 
         this.shiftNameEditText.setText(this.currShift.getName());
         this.incomePerHour.setText(String.valueOf(this.currShift.getIncomePerHour()));
         this.incomePerExtraHour.setText(String.valueOf(this.currShift.getIncomePerExtraHour()));
+        try {
+            this.updateTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.calcIncome();
         this.setUpListeners();
         this.setUpColors();
 
@@ -118,6 +126,48 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+        this.shiftTimeHours.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { calcIncome(); }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+        this.shiftTimeMinutes.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { calcIncome(); }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+        this.incomePerHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { calcIncome(); }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+    }
+
+    private void calcIncome(){
+        double incomePerHour;
+        if(this.incomePerHour.getText().toString().equals("")) incomePerHour = 0;
+        else incomePerHour = Double.parseDouble(this.incomePerHour.getText().toString());
+        int hours = Integer.parseInt(this.shiftTimeHours.getText().toString().replaceAll(" h", ""));
+        int min = Integer.parseInt(this.shiftTimeMinutes.getText().toString().replaceAll(" m", ""));
+
+        double income = incomePerHour * (hours + ((double) min / 60));
+
+        this.incomePerHourTV.setText(String.valueOf(income) + " €");
     }
 
     private void popTimePicker(View view, TextView textView){
