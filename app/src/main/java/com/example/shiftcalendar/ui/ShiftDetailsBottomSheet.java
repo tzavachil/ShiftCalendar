@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -51,6 +52,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     private View slideLine;
     private View shiftTimeLine;
     private View incomeLine;
+    private Button saveChangesBtn;
 
     private LinearLayout shiftTimeLayout;
     private LinearLayout incomeLayout;
@@ -58,8 +60,11 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     private int hour;
     private int minute;
 
+    private int color;
+
     public ShiftDetailsBottomSheet(Shift s){
         this.currShift = s;
+        this.color = currShift.getBackgroundColor();
     }
 
     @Nullable
@@ -82,6 +87,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         this.slideLine = view.findViewById(R.id.slide_line);
         this.shiftTimeLine = view.findViewById(R.id.shiftTimeLine);
         this.incomeLine = view.findViewById(R.id.incomeLine);
+        this.saveChangesBtn = view.findViewById(R.id.saveChangesBtn);
 
         this.shiftNameEditText.setText(this.currShift.getName());
         this.incomePerHour.setText(String.valueOf(this.currShift.getIncomePerHour()));
@@ -116,10 +122,6 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     updateTime();
-                    String time = startShiftTime.getText().toString();
-                    int hour = Integer.parseInt(time.split(":")[0]);
-                    int min = Integer.parseInt(time.split(":")[1]);
-                    currShift.setStartTime(new Time(hour, min, 0));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -142,10 +144,6 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     updateTime();
-                    String time = endShiftTime.getText().toString();
-                    int hour = Integer.parseInt(time.split(":")[0]);
-                    int min = Integer.parseInt(time.split(":")[1]);
-                    currShift.setEndTime(new Time(hour, min, 0));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -181,25 +179,6 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 calcIncome();
-                String incomeStr = incomePerHour.getText().toString();
-                if(incomeStr.length() != 0){
-                    currShift.setIncomePerHour(Double.parseDouble(incomeStr));
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {}
-        });
-        this.incomePerExtraHour.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String incomeStr = incomePerExtraHour.getText().toString();
-                if(incomeStr.length() != 0){
-                    currShift.setIncomePerExtraHour(Double.parseDouble(incomeStr));
-                }
             }
 
             @Override
@@ -225,7 +204,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
                         if(newColor != currShift.getBackgroundColor()) {
                             backgroundColorView.getBackground().setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
                             backgroundColorId.setTextColor(Color.BLACK);
-                            currShift.setBackgroundColor(newColor);
+                            color = newColor;
                             setUpColors();
                         }
                     } catch (NumberFormatException e){
@@ -237,6 +216,44 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+        this.saveChangesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveChanges();
+            }
+        });
+    }
+
+    private void saveChanges(){
+        //Save color
+        this.currShift.setBackgroundColor(this.color);
+
+        //Save start shift time
+        String time = startShiftTime.getText().toString();
+        int hour = Integer.parseInt(time.split(":")[0]);
+        int min = Integer.parseInt(time.split(":")[1]);
+        currShift.setStartTime(new Time(hour, min, 0));
+
+        //Save end shift time
+        time = endShiftTime.getText().toString();
+        hour = Integer.parseInt(time.split(":")[0]);
+        min = Integer.parseInt(time.split(":")[1]);
+        currShift.setEndTime(new Time(hour, min, 0));
+
+        //Save income per hour
+        String incomeStr = incomePerHour.getText().toString();
+        if(incomeStr.length() != 0){
+            currShift.setIncomePerHour(Double.parseDouble(incomeStr));
+        }
+
+        //Save income per extra hour
+        String incomeExtraStr = incomePerExtraHour.getText().toString();
+        if(incomeStr.length() != 0){
+            currShift.setIncomePerExtraHour(Double.parseDouble(incomeExtraStr));
+        }
+
+        dismiss();
+
     }
 
     private void createColorPicker(){

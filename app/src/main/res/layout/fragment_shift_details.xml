@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:paddingBottom="10dp">
 
         <View
             android:id="@+id/slide_line"
@@ -302,6 +303,14 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/saveChangesBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save Changes"
+            android:background="@drawable/save_button"
+            android:textColor="@color/white"
+            android:paddingHorizontal="20dp"/>
 
     </LinearLayout>
 
