@@ -51,7 +51,7 @@ public class ShiftSpinnerAdapter extends BaseAdapter {
         else
             shiftName.setText("No Shift");
         GradientDrawable rectangle = (GradientDrawable) colorRectangle.getBackground();
-        rectangle.setColor(shiftList.get(i).getLineColor());
+        rectangle.setColor(shiftList.get(i).getBackgroundColor());
 
         return rootView;
     }

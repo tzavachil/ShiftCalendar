@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -274,37 +275,40 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
     private void changeColor(){
         //Spinner
         GradientDrawable spinnerBackground = (GradientDrawable) this.shiftSpinner.getBackground();
-        spinnerBackground.setStroke(8, this.lineColor);
+        if(String.format("#%06X", (0xFFFFFF & this.lineColor)).equals("#6A6A6A"))
+            spinnerBackground.setStroke(8, this.lineColor);
+        else
+            spinnerBackground.setStroke(8, this.backgroundColor);
 
         //Slide Line
         GradientDrawable slideLineBackground = (GradientDrawable) this.slide_line.getBackground();
-        slideLineBackground.setColor(this.lineColor);
+        slideLineBackground.setColor(this.backgroundColor);
 
         //Notes Plain Text
-        this.notesPlainText.setBackgroundTintList(ColorStateList.valueOf(this.lineColor));
+        this.notesPlainText.setBackgroundTintList(ColorStateList.valueOf(this.backgroundColor));
 
         //Layouts
-        this.changeLayoutColor(this.shiftTimeLayout,3,this.lineColor);
-        this.changeLayoutColor(this.earlyExitLayout,3,this.lineColor);
-        this.changeLayoutColor(this.extraTimeLayout,3,this.lineColor);
-        this.changeLayoutColor(this.totalTimeLayout,3,this.lineColor);
-        this.changeLayoutColor(this.incomeLayout,3,this.lineColor);
+        this.changeLayoutColor(this.shiftTimeLayout,3,this.backgroundColor);
+        this.changeLayoutColor(this.earlyExitLayout,3,this.backgroundColor);
+        this.changeLayoutColor(this.extraTimeLayout,3,this.backgroundColor);
+        this.changeLayoutColor(this.totalTimeLayout,3,this.backgroundColor);
+        this.changeLayoutColor(this.incomeLayout,3,this.backgroundColor);
 
         //Lines
-        this.changeLineColor(this.shiftTimeLine,this.lineColor);
-        this.changeLineColor(this.earlyExitLine,this.lineColor);
-        this.changeLineColor(this.extraTimeLine,this.lineColor);
-        this.changeLineColor(this.incomeLine,this.lineColor);
-        this.changeLineColor(this.horizontalLine,this.lineColor);
+        this.changeLineColor(this.shiftTimeLine,this.backgroundColor);
+        this.changeLineColor(this.earlyExitLine,this.backgroundColor);
+        this.changeLineColor(this.extraTimeLine,this.backgroundColor);
+        this.changeLineColor(this.incomeLine,this.backgroundColor);
+        this.changeLineColor(this.horizontalLine,this.backgroundColor);
 
         //Edit Text
-        this.changeEditTextColor(this.earlyExitHours,3,this.lineColor);
-        this.changeEditTextColor(this.earlyExitMin,3,this.lineColor);
-        this.changeEditTextColor(this.extraTimeHours,3,this.lineColor);
-        this.changeEditTextColor(this.extraTimeMin,3,this.lineColor);
-        this.changeEditTextColor(this.incomePerHourEditText,3,this.lineColor);
-        this.changeEditTextColor(this.incomePerExtraHourEditText,3,this.lineColor);
-        this.changeEditTextColor(this.extraIncome,3,this.lineColor);
+        this.changeEditTextColor(this.earlyExitHours,3,this.backgroundColor);
+        this.changeEditTextColor(this.earlyExitMin,3,this.backgroundColor);
+        this.changeEditTextColor(this.extraTimeHours,3,this.backgroundColor);
+        this.changeEditTextColor(this.extraTimeMin,3,this.backgroundColor);
+        this.changeEditTextColor(this.incomePerHourEditText,3,this.backgroundColor);
+        this.changeEditTextColor(this.incomePerExtraHourEditText,3,this.backgroundColor);
+        this.changeEditTextColor(this.extraIncome,3,this.backgroundColor);
 
         this.calendarViewHolder.setBackgroundColor(this.backgroundColor);
         this.calendarViewHolder.setTextColor();
