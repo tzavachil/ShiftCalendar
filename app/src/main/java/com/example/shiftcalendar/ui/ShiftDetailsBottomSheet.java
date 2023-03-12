@@ -1,6 +1,7 @@
 package com.example.shiftcalendar.ui;
 
 import android.app.TimePickerDialog;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -37,6 +39,9 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
     private TextView shiftTimeHours;
     private TextView shiftTimeMinutes;
 
+    private LinearLayout shiftTimeLayout;
+    private LinearLayout incomeLayout;
+
     private int hour;
     private int minute;
 
@@ -56,11 +61,14 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
         this.endShiftTime = view.findViewById(R.id.endShiftTime);
         this.shiftTimeHours = view.findViewById(R.id.shiftTimeHours);
         this.shiftTimeMinutes = view.findViewById(R.id.shiftTimeMin);
+        this.shiftTimeLayout = view.findViewById(R.id.shiftTimeLayout);
+        this.incomeLayout = view.findViewById(R.id.incomeLayout);
 
         this.shiftNameEditText.setText(this.currShift.getName());
         this.incomePerHour.setText(String.valueOf(this.currShift.getIncomePerHour()));
         this.incomePerExtraHour.setText(String.valueOf(this.currShift.getIncomePerExtraHour()));
         this.setUpListeners();
+        this.setUpColors();
 
         return view;
     }
@@ -149,6 +157,13 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
 
         shiftTimeHours.setText(String.valueOf(hours) + " h");
         shiftTimeMinutes.setText(String.valueOf(minutes) + " m");
+    }
+
+    private void setUpColors(){
+        GradientDrawable shiftTimeLayoutBackground = (GradientDrawable) this.shiftTimeLayout.getBackground();
+        shiftTimeLayoutBackground.setStroke(3, this.currShift.getBackgroundColor());
+        GradientDrawable incomeLayoutBackground = (GradientDrawable) this.incomeLayout.getBackground();
+        incomeLayoutBackground.setStroke(3, this.currShift.getBackgroundColor());
     }
 
 }
