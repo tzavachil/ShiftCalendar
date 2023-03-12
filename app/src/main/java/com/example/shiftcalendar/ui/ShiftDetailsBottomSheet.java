@@ -23,6 +23,7 @@ import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.Shift;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -115,6 +116,10 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     updateTime();
+                    String time = startShiftTime.getText().toString();
+                    int hour = Integer.parseInt(time.split(":")[0]);
+                    int min = Integer.parseInt(time.split(":")[1]);
+                    currShift.setStartTime(new Time(hour, min, 0));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -137,6 +142,10 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     updateTime();
+                    String time = endShiftTime.getText().toString();
+                    int hour = Integer.parseInt(time.split(":")[0]);
+                    int min = Integer.parseInt(time.split(":")[1]);
+                    currShift.setEndTime(new Time(hour, min, 0));
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -170,7 +179,28 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { calcIncome(); }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                calcIncome();
+                String incomeStr = incomePerHour.getText().toString();
+                if(incomeStr.length() != 0){
+                    currShift.setIncomePerHour(Double.parseDouble(incomeStr));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+        this.incomePerExtraHour.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String incomeStr = incomePerExtraHour.getText().toString();
+                if(incomeStr.length() != 0){
+                    currShift.setIncomePerExtraHour(Double.parseDouble(incomeStr));
+                }
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {}
