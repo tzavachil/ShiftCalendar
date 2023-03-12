@@ -61,10 +61,12 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     private int minute;
 
     private int color;
+    private View convertView;
 
-    public ShiftDetailsBottomSheet(Shift s){
+    public ShiftDetailsBottomSheet(Shift s, View convertView){
         this.currShift = s;
         this.color = currShift.getBackgroundColor();
+        this.convertView = convertView;
     }
 
     @Nullable
@@ -228,6 +230,9 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         //Save color
         this.currShift.setBackgroundColor(this.color);
 
+        //Save name
+        this.currShift.setName(this.shiftNameEditText.getText().toString());
+
         //Save start shift time
         String time = startShiftTime.getText().toString();
         int hour = Integer.parseInt(time.split(":")[0]);
@@ -252,8 +257,12 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             currShift.setIncomePerExtraHour(Double.parseDouble(incomeExtraStr));
         }
 
-        dismiss();
+        GradientDrawable layoutBackground = (GradientDrawable) this.convertView.findViewById(R.id.shiftItemLayout).getBackground();
+        layoutBackground.setStroke(3, currShift.getBackgroundColor());
+        TextView tempTV = this.convertView.findViewById(R.id.shiftItemName);
+        tempTV.setText(this.shiftNameEditText.getText().toString());
 
+        dismiss();
     }
 
     private void createColorPicker(){

@@ -44,21 +44,21 @@ public class ShiftAdapter extends ArrayAdapter<Shift> {
         }
         this.shiftItemLayout = convertView.findViewById(R.id.shiftItemLayout);
         GradientDrawable layoutBackground = (GradientDrawable) this.shiftItemLayout.getBackground();
-        layoutBackground.setStroke(3, shift.getLineColor());
+        layoutBackground.setStroke(3, shift.getBackgroundColor());
         TextView shiftNameTextView = (TextView) convertView.findViewById(R.id.shiftItemName);
         this.deleteShiftButton = (ImageButton) convertView.findViewById(R.id.deleteShiftButton);
         this.duplicateShiftButton = (ImageButton) convertView.findViewById(R.id.duplicateShiftButton);
-        this.setUpListeners(position, shift);
+        this.setUpListeners(position, shift, convertView);
         shiftNameTextView.setText(shift.getName());
 
         return convertView;
     }
 
-    private void setUpListeners(int position, Shift currShift){
+    private void setUpListeners(int position, Shift currShift, View convertView){
         this.shiftItemLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ShiftDetailsBottomSheet shiftDetailsBottomSheet = new ShiftDetailsBottomSheet(currShift);
+                ShiftDetailsBottomSheet shiftDetailsBottomSheet = new ShiftDetailsBottomSheet(currShift, convertView);
                 shiftDetailsBottomSheet.show(rootFragment.getActivity().getSupportFragmentManager(), "TAG");
             }
         });
