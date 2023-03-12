@@ -1,10 +1,13 @@
 package com.example.shiftcalendar.ui;
 
 import android.app.TimePickerDialog;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +28,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
+import eltos.simpledialogfragment.SimpleDialog;
+import eltos.simpledialogfragment.color.SimpleColorDialog;
+
+public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implements SimpleDialog.OnDialogResultListener {
 
     private View view;
 
@@ -39,6 +45,11 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
     private TextView shiftTimeHours;
     private TextView shiftTimeMinutes;
     private TextView incomePerHourTV;
+    private View backgroundColorView;
+    private EditText backgroundColorId;
+    private View slideLine;
+    private View shiftTimeLine;
+    private View incomeLine;
 
     private LinearLayout shiftTimeLayout;
     private LinearLayout incomeLayout;
@@ -65,10 +76,18 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
         this.incomePerHourTV = view.findViewById(R.id.incomePerHourTV);
         this.shiftTimeLayout = view.findViewById(R.id.shiftTimeLayout);
         this.incomeLayout = view.findViewById(R.id.incomeLayout);
+        this.backgroundColorView = view.findViewById(R.id.backgroundColor);
+        this.backgroundColorId = view.findViewById(R.id.backgroundColorId);
+        this.slideLine = view.findViewById(R.id.slide_line);
+        this.shiftTimeLine = view.findViewById(R.id.shiftTimeLine);
+        this.incomeLine = view.findViewById(R.id.incomeLine);
 
         this.shiftNameEditText.setText(this.currShift.getName());
         this.incomePerHour.setText(String.valueOf(this.currShift.getIncomePerHour()));
         this.incomePerExtraHour.setText(String.valueOf(this.currShift.getIncomePerExtraHour()));
+        this.backgroundColorView.getBackground().setColorFilter(currShift.getBackgroundColor(), PorterDuff.Mode.SRC_IN);
+        this.backgroundColorId.setText(String.format("%06X", (0xFFFFFF & currShift.getBackgroundColor())));
+
         try {
             this.updateTime();
         } catch (ParseException e) {
@@ -156,6 +175,42 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+        this.backgroundColorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createColorPicker();
+            }
+        });
+        this.backgroundColorId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String text = backgroundColorId.getText().toString();
+                if(text.matches("\\w{6}")) {
+                    int newColor;
+                    try {
+                        newColor = Color.parseColor("#" + text);
+                        if(newColor != currShift.getBackgroundColor()) {
+                            backgroundColorView.getBackground().setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
+                            backgroundColorId.setTextColor(Color.BLACK);
+                            currShift.setBackgroundColor(newColor);
+                            setUpColors();
+                        }
+                    } catch (NumberFormatException e){
+                        backgroundColorId.setTextColor(Color.RED);
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {}
+        });
+    }
+
+    private void createColorPicker(){
+        SimpleColorDialog.build().title("Pick a color").allowCustom(true).colorPreset(currShift.getBackgroundColor()).show(this,"ColorPickerTag");
     }
 
     private void calcIncome(){
@@ -210,10 +265,39 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment {
     }
 
     private void setUpColors(){
-        GradientDrawable shiftTimeLayoutBackground = (GradientDrawable) this.shiftTimeLayout.getBackground();
-        shiftTimeLayoutBackground.setStroke(3, this.currShift.getBackgroundColor());
-        GradientDrawable incomeLayoutBackground = (GradientDrawable) this.incomeLayout.getBackground();
-        incomeLayoutBackground.setStroke(3, this.currShift.getBackgroundColor());
+
+        int shiftColor = this.currShift.getBackgroundColor();
+
+        this.setStroke(this.shiftTimeLayout, shiftColor);
+        this.setStroke(this.incomeLayout, shiftColor);
+        this.setColor(this.slideLine, shiftColor);
+        this.setColor(this.shiftTimeLine, shiftColor);
+        this.setColor(this.incomeLine, shiftColor);
+        this.setStroke(this.incomePerHour, shiftColor);
+        this.setStroke(this.incomePerExtraHour, shiftColor);
+        this.backgroundColorView.getBackground().setColorFilter(shiftColor, PorterDuff.Mode.SRC_IN);
     }
 
+    private void setStroke(View view, int color){
+        GradientDrawable viewBG = (GradientDrawable) view.getBackground();
+        viewBG.setStroke(3, color);
+    }
+
+    private void setColor(View view, int color){
+        GradientDrawable viewBG = (GradientDrawable) view.getBackground();
+        viewBG.setColor(color);
+    }
+
+    @Override
+    public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
+        if ("ColorPickerTag".equals(dialogTag) && which == BUTTON_POSITIVE){
+            int newColor = extras.getInt(SimpleColorDialog.COLOR);
+            Log.d("Debug", newColor + " ");
+            this.backgroundColorId.setText(String.format("%06X", (0xFFFFFF & newColor)));
+            this.currShift.setBackgroundColor(newColor);
+            setUpColors();
+            return true;
+        }
+        return false;
+    }
 }
