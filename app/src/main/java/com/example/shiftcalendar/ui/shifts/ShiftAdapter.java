@@ -1,7 +1,6 @@
 package com.example.shiftcalendar.ui.shifts;
 
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import java.util.ArrayList;
 public class ShiftAdapter extends ArrayAdapter<Shift> {
 
     private Fragment rootFragment;
+
     private ArrayList<Shift> shifts;
 
     private ConstraintLayout shiftItemLayout;
@@ -76,7 +76,6 @@ public class ShiftAdapter extends ArrayAdapter<Shift> {
             public void onClick(View view) {
                 Shift newShift = new Shift(currShift);
                 newShift.setName(currShift.getName() + " - Duplicate");
-                Log.d("Debug", "" + MainActivity.shiftList.contains(newShift));
                 if(!MainActivity.shiftList.contains(newShift)) {
                     MainActivity.shiftList.add(position + 1, newShift);
                     shifts.add(position + 1, newShift);
@@ -85,5 +84,9 @@ public class ShiftAdapter extends ArrayAdapter<Shift> {
             }
         });
     }
+
+    public ArrayList<Shift> getShifts() { return shifts; }
+
+    public void setShifts(ArrayList<Shift> shifts) { this.shifts = shifts; }
 
 }

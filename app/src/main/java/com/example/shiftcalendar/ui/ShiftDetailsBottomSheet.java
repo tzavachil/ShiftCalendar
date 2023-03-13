@@ -1,13 +1,13 @@
 package com.example.shiftcalendar.ui;
 
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +20,10 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.shiftcalendar.MainActivity;
 import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.Shift;
+import com.example.shiftcalendar.ui.shifts.ShiftAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.sql.Time;
@@ -63,10 +65,19 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     private int color;
     private View convertView;
 
+    private ShiftAdapter currShiftAdapter;
+
     public ShiftDetailsBottomSheet(Shift s, View convertView){
         this.currShift = s;
         this.color = currShift.getBackgroundColor();
         this.convertView = convertView;
+    }
+
+    public ShiftDetailsBottomSheet(Context context, ShiftAdapter shiftAdapter){
+        this.currShift = new Shift(context);
+        this.color = currShift.getBackgroundColor();
+        this.convertView = null;
+        this.currShiftAdapter = shiftAdapter;
     }
 
     @Nullable
@@ -257,10 +268,16 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             currShift.setIncomePerExtraHour(Double.parseDouble(incomeExtraStr));
         }
 
-        GradientDrawable layoutBackground = (GradientDrawable) this.convertView.findViewById(R.id.shiftItemLayout).getBackground();
-        layoutBackground.setStroke(3, currShift.getBackgroundColor());
-        TextView tempTV = this.convertView.findViewById(R.id.shiftItemName);
-        tempTV.setText(this.shiftNameEditText.getText().toString());
+        if(this.convertView != null) {
+            GradientDrawable layoutBackground = (GradientDrawable) this.convertView.findViewById(R.id.shiftItemLayout).getBackground();
+            layoutBackground.setStroke(3, currShift.getBackgroundColor());
+            TextView tempTV = this.convertView.findViewById(R.id.shiftItemName);
+            tempTV.setText(this.shiftNameEditText.getText().toString());
+        } else {
+            MainActivity.shiftList.add(this.currShift);
+            this.currShiftAdapter.getShifts().add(this.currShift);
+            this.currShiftAdapter.notifyDataSetChanged();
+        }
 
         dismiss();
     }
@@ -348,7 +365,6 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     public boolean onResult(@NonNull String dialogTag, int which, @NonNull Bundle extras) {
         if ("ColorPickerTag".equals(dialogTag) && which == BUTTON_POSITIVE){
             int newColor = extras.getInt(SimpleColorDialog.COLOR);
-            Log.d("Debug", newColor + " ");
             this.backgroundColorId.setText(String.format("%06X", (0xFFFFFF & newColor)));
             this.currShift.setBackgroundColor(newColor);
             setUpColors();
