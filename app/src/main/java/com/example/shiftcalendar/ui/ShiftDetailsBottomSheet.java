@@ -75,6 +75,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
 
     public ShiftDetailsBottomSheet(Context context, ShiftAdapter shiftAdapter){
         this.currShift = new Shift(context);
+        this.currShift.setName("New Shift");
         this.color = currShift.getBackgroundColor();
         this.convertView = null;
         this.currShiftAdapter = shiftAdapter;
@@ -238,8 +239,18 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     }
 
     private void saveChanges(){
+
+        boolean save = false;
+
         //Save color
-        this.currShift.setBackgroundColor(this.color);
+        if(this.currShift.getBackgroundColor() != Color.WHITE) {
+            this.currShift.setBackgroundColor(this.color);
+            this.backgroundColorId.setTextColor(Color.BLACK);
+            save = true;
+            dismiss();
+        }
+        else
+            this.backgroundColorId.setTextColor(Color.RED);
 
         //Save name
         this.currShift.setName(this.shiftNameEditText.getText().toString());
@@ -273,13 +284,11 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             layoutBackground.setStroke(3, currShift.getBackgroundColor());
             TextView tempTV = this.convertView.findViewById(R.id.shiftItemName);
             tempTV.setText(this.shiftNameEditText.getText().toString());
-        } else {
+        } else if(save){
             MainActivity.shiftList.add(this.currShift);
             this.currShiftAdapter.getShifts().add(this.currShift);
             this.currShiftAdapter.notifyDataSetChanged();
         }
-
-        dismiss();
     }
 
     private void createColorPicker(){
