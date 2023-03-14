@@ -8,6 +8,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -216,10 +217,12 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
                     try {
                         newColor = Color.parseColor("#" + text);
                         if(newColor != currShift.getBackgroundColor()) {
+                            Log.d("Debug", "New Color: " + String.format("#%06X", (0xFFFFFF & newColor)));
+                            Log.d("Debug", "New Color: " + String.format("#%06X", (0xFFFFFF & currShift.getBackgroundColor())));
                             backgroundColorView.getBackground().setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
                             backgroundColorId.setTextColor(Color.BLACK);
                             color = newColor;
-                            setUpColors();
+                            setUpColors(color);
                         }
                     } catch (NumberFormatException e){
                         backgroundColorId.setTextColor(Color.RED);
@@ -358,6 +361,17 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         this.setStroke(this.incomePerHour, shiftColor);
         this.setStroke(this.incomePerExtraHour, shiftColor);
         this.backgroundColorView.getBackground().setColorFilter(shiftColor, PorterDuff.Mode.SRC_IN);
+    }
+
+    private void setUpColors(int color){
+        this.setStroke(this.shiftTimeLayout, color);
+        this.setStroke(this.incomeLayout, color);
+        this.setColor(this.slideLine, color);
+        this.setColor(this.shiftTimeLine, color);
+        this.setColor(this.incomeLine, color);
+        this.setStroke(this.incomePerHour, color);
+        this.setStroke(this.incomePerExtraHour, color);
+        this.backgroundColorView.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
     }
 
     private void setStroke(View view, int color){
