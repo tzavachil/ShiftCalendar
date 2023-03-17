@@ -20,6 +20,13 @@ public class ShiftDay {
         this.notes = null;
     }
 
+    public ShiftDay(Calendar calendar, Shift shift, String notes){
+        this.calendar = calendar;
+        this.color = color;
+        this.shift = shift;
+        this.notes = notes;
+    }
+
     public Calendar getCalendar() {
         return calendar;
     }

@@ -1,6 +1,7 @@
 package com.example.shiftcalendar.ui.calendar;
 
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         holder.setText(String.valueOf(daysOfMonth.get(position)));
+        holder.displayShiftHolder();
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.shiftcalendar;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.example.shiftcalendar.ui.summary.SummaryFragment;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
         lightGray = getResources().getColor(R.color.light_grey);
 
         shiftList = new ArrayList<>();
-        this.initializingShifts();
         this.shiftDayList = new ShiftDayList();
+        this.initializingShifts();
+        this.initializingDays();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -56,6 +59,23 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+    }
+
+    //Temp
+    private void initializingDays(){
+        Calendar tempCal = Calendar.getInstance();
+        tempCal.set(2023 + 1900, 3, 17);
+        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), ""));
+        tempCal = Calendar.getInstance();
+        tempCal.set(2023 + 1900, 3, 18);
+        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), "Testing notes!"));
+        tempCal = Calendar.getInstance();
+        tempCal.set(2023 + 1900, 3, 19);
+        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), ""));
+        tempCal = Calendar.getInstance();
+        tempCal.set(2023 + 1900, 3, 20);
+        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(3), "Some notes!"));
+        Log.d("Debug", "ShiftDayList.size() = " + this.shiftDayList.size());
     }
 
     //Temp

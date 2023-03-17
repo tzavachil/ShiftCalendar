@@ -3,6 +3,7 @@ package com.example.shiftcalendar.ui.calendar;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -26,6 +27,8 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
+import eltos.simpledialogfragment.form.DateTime;
 
 public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -59,7 +62,27 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         this.shiftDayList = sDL;
 
         this.myShiftDay = this.createCurrentShiftDay();
-        this.shiftDayList.addDay(this.myShiftDay);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void displayShiftHolder(){
+        String thisDay = this.dayOfMonth.getText().toString();
+        if(!thisDay.equals("")) {
+            String[] tempTable = monthYearTV.getText().toString().split(" ");
+            String thisMonth = tempTable[0];
+            String thisYear = tempTable[1];
+
+            if (thisDay.length() == 1)
+                thisDay = "0" + thisDay;
+            DateTimeFormatter parser = DateTimeFormatter.ofPattern("MMMM").withLocale(Locale.ENGLISH);
+            TemporalAccessor accessor = parser.parse(thisMonth);
+            int dayInteger = Integer.parseInt(thisDay);
+            int monthInteger = accessor.get(ChronoField.MONTH_OF_YEAR);
+            int yearInteger = Integer.parseInt(thisYear);
+            if(this.shiftDayList.contains(dayInteger, monthInteger, yearInteger)){
+                //Paint the holder with day's shift
+            }
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -77,7 +100,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private ShiftDay createCurrentShiftDay(){
+    public ShiftDay createCurrentShiftDay(){
 
         int length = this.monthYearTV.getText().toString().length();
         int currYear = Integer.parseInt(this.monthYearTV.getText().toString().substring(length-4, length));
