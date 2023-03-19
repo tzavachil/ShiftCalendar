@@ -27,14 +27,19 @@ public class ShiftDayList {
         return flag;
     }
 
-    public boolean contains(int day, int month, int year){
-        boolean flag = false;
+    //public boolean contains(int day, int month, int year){
+    public ShiftDay contains(int day, int month, int year){
+        //boolean flag = false;
+        ShiftDay tempShiftDay = null;
         year += 1900;
         for(ShiftDay sd: this.shiftDaysList){
-            if(!flag)
-                flag = this.areEqualWithInt(sd, day, month, year);
+            //if(!flag)
+            if(tempShiftDay == null && this.areEqualWithInt(sd, day, month, year))
+                //flag = this.areEqualWithInt(sd, day, month, year);
+                tempShiftDay = sd;
         }
-        return flag;
+        //return flag;
+        return tempShiftDay;
     }
 
     private boolean areEqual(ShiftDay sd1, ShiftDay sd2){

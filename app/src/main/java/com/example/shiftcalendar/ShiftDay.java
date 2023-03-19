@@ -22,8 +22,8 @@ public class ShiftDay {
 
     public ShiftDay(Calendar calendar, Shift shift, String notes){
         this.calendar = calendar;
-        this.color = color;
         this.shift = shift;
+        this.color = shift.getBackgroundColor();
         this.notes = notes;
     }
 

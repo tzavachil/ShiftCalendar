@@ -1,6 +1,7 @@
 package com.example.shiftcalendar.ui.calendar;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.util.Log;
@@ -79,8 +80,17 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
             int dayInteger = Integer.parseInt(thisDay);
             int monthInteger = accessor.get(ChronoField.MONTH_OF_YEAR);
             int yearInteger = Integer.parseInt(thisYear);
-            if(this.shiftDayList.contains(dayInteger, monthInteger, yearInteger)){
+            ShiftDay currShiftDay = this.shiftDayList.contains(dayInteger, monthInteger, yearInteger);
+            if(currShiftDay != null){
                 //Paint the holder with day's shift
+                this.setBackgroundColor(currShiftDay.getColor());
+                if(!this.isToday(thisDay))
+                    this.setTextColor();
+                else {
+                    this.setTextColor(Color.BLACK);
+                    this.dayOfMonth.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+                }
+                this.myShiftDay = currShiftDay;
             }
         }
     }
@@ -152,6 +162,11 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     public void setTextColor(){
         if(!(((ColorDrawable) this.layout.getBackground()).getColor() == this.rootFragment.getView().getResources().getColor(R.color.white)))
             this.dayOfMonth.setTextColor(this.rootFragment.getView().getResources().getColor(R.color.black));
+    }
+
+    public void setTextColor(int color){
+        if(!(((ColorDrawable) this.layout.getBackground()).getColor() == this.rootFragment.getView().getResources().getColor(R.color.white)))
+            this.dayOfMonth.setTextColor(color);
     }
 
     public void setEmptyTextColor(){

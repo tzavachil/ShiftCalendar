@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), ""));
         tempCal = Calendar.getInstance();
         tempCal.set(2023 + 1900, 3, 18);
-        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), "Testing notes!"));
+        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(1), "Testing notes!"));
         tempCal = Calendar.getInstance();
         tempCal.set(2023 + 1900, 3, 19);
         this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), ""));
