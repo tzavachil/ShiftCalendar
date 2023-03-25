@@ -105,8 +105,14 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showBottomSheet(){
+        this.myShiftDay.setDay(this.dayOfMonth.getText().toString());
         DayDetailsBottomSheet bottomSheetDayDetails = new DayDetailsBottomSheet(this.getDateToString(), this.myShiftDay, this.shiftList, this);
         bottomSheetDayDetails.show(rootFragment.getActivity().getSupportFragmentManager(), "TAG");
+    }
+
+    public void saveDayChanges(ShiftDay currShiftDay){
+        Log.d("Debug", this.myShiftDay.toString());
+        this.shiftDayList.addDay(currShiftDay);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

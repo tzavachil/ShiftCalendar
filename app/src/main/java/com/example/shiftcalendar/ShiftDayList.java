@@ -14,31 +14,28 @@ public class ShiftDayList {
     }
 
     public void addDay(ShiftDay day){
-        if(!this.contains(day))
-            this.shiftDaysList.add(day);
+        ShiftDay tempShiftDay = this.contains(day);
+        if(tempShiftDay != null)
+            this.shiftDaysList.remove(tempShiftDay);
+        this.shiftDaysList.add(day);
     }
 
-    public boolean contains(ShiftDay day) {
-        boolean flag = false;
+    public ShiftDay contains(ShiftDay day) {
+        ShiftDay tempShiftDay = null;
         for(ShiftDay sd: this.shiftDaysList){
-            if(!flag)
-                flag = this.areEqual(sd, day);
+            if(tempShiftDay == null && this.areEqual(sd, day))
+                tempShiftDay = sd;
         }
-        return flag;
+        return tempShiftDay;
     }
 
-    //public boolean contains(int day, int month, int year){
     public ShiftDay contains(int day, int month, int year){
-        //boolean flag = false;
         ShiftDay tempShiftDay = null;
         year += 1900;
         for(ShiftDay sd: this.shiftDaysList){
-            //if(!flag)
             if(tempShiftDay == null && this.areEqualWithInt(sd, day, month, year))
-                //flag = this.areEqualWithInt(sd, day, month, year);
                 tempShiftDay = sd;
         }
-        //return flag;
         return tempShiftDay;
     }
 

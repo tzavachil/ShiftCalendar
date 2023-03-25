@@ -5,6 +5,7 @@ import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,8 +49,10 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
     private int backgroundColor;
     private Time startShift;
     private Time endShift;
-    private Time earlyExitTime;
-    private Time extraTime;
+    private int dayEarlyExitHours;
+    private int dayEarlyExitMin;
+    private int dayExtraTimeHours;
+    private int dayExtraTimeMin;
     private double incomePerHour;
     private double incomePerExtraHour;
     private double extraIncomeValue;
@@ -110,7 +113,13 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
         this.myShiftDay = myShiftDay;
         this.date = date;
         this.notes = myShiftDay.getNotes();
-        this.extraIncomeValue = 0;
+        this.dayEarlyExitHours = this.myShiftDay.getEarlyExitHours();
+        this.dayEarlyExitMin = this.myShiftDay.getEarlyExitMin();
+        this.dayExtraTimeHours = this.myShiftDay.getExtraTimeHours();
+        this.dayExtraTimeMin = this.myShiftDay.getExtraTimeMin();
+        this.incomePerHour = this.myShiftDay.getIncomePerHour();
+        this.incomePerExtraHour = this.myShiftDay.getIncomePerExtraHour();
+        this.extraIncomeValue = this.myShiftDay.getExtraIncome();
 
         //Shift Data Initialization
         if(myShiftDay.getShift() == null)
@@ -121,8 +130,7 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
         this.backgroundColor = this.myShift.getBackgroundColor();
         this.startShift = this.myShift.getStartTime();
         this.endShift = this.myShift.getEndTime();
-        this.incomePerHour = this.myShift.getIncomePerHour();
-        this.incomePerExtraHour = this.myShift.getIncomePerExtraHour();
+
     }
 
     @Nullable
@@ -162,13 +170,13 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
 
         //Edit Text
         this.earlyExitHours = (EditText) view.findViewById(R.id.earlyExitHours);
-        this.earlyExitHours.setText("0");
+        this.earlyExitHours.setText(String.valueOf(this.dayEarlyExitHours));
         this.earlyExitMin = (EditText) view.findViewById(R.id.earlyExitMin);
-        this.earlyExitMin.setText("0");
+        this.earlyExitMin.setText(String.valueOf(this.dayEarlyExitMin));
         this.extraTimeHours = (EditText) view.findViewById(R.id.extraTimeHours);
-        this.extraTimeHours.setText("0");
+        this.extraTimeHours.setText(String.valueOf(dayExtraTimeHours));
         this.extraTimeMin = (EditText) view.findViewById(R.id.extraTimeMin);
-        this.extraTimeMin.setText("0");
+        this.extraTimeMin.setText(String.valueOf(dayExtraTimeMin));
         this.incomePerHourEditText = (EditText) view.findViewById(R.id.incomePerHour);
         this.incomePerExtraHourEditText = (EditText) view.findViewById(R.id.incomePerExtraHour);
         this.extraIncome = (EditText) view.findViewById(R.id.extraIncome);
@@ -206,6 +214,12 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
         this.changeColor();
         if(this.myShiftDay.getShift() == null) this.displayDetails(0);
 
+        try {
+            this.sumTime();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         return view;
     }
 
@@ -241,21 +255,29 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
                 changeColor();
                 startShift = selectedShift.getStartTime();
                 endShift = selectedShift.getEndTime();
-                incomePerHour = selectedShift.getIncomePerHour();
-                incomePerExtraHour = selectedShift.getIncomePerExtraHour();
+                if(myShiftDay.getShift() == null) {
+                    myShiftDay.setIncomePerHour(selectedShift.getIncomePerHour());
+                    myShiftDay.setIncomePerExtraHour(selectedShift.getIncomePerExtraHour());
+                }
+                incomePerHour = myShiftDay.getIncomePerHour();
+                incomePerExtraHour = myShiftDay.getIncomePerExtraHour();
                 try {
                     setUpTextViews();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
                 myShiftDay.setShift(selectedShift);
+                myShiftDay.setColor(selectedShift.getBackgroundColor());
                 setUpIncome();
                 displayDetails(1);
                 if(selectedShift.getName().equals("")) {
                     calendarViewHolder.setEmptyTextColor();
                     myShiftDay.setShift(null);
                     displayDetails(0);
+                } else {
+                    calendarViewHolder.saveDayChanges(myShiftDay);
                 }
+
             }
 
             @Override
@@ -356,10 +378,14 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String hours = earlyExitHours.getText().toString();
-                if (!hours.equals(""))
+                if (!hours.equals("")) {
                     earlyExitTimeTextHour.setText(hours + " h");
-                else
+                    myShiftDay.setEarlyExitHours(Integer.parseInt(hours));
+                }
+                else {
                     earlyExitTimeTextHour.setText("0 h");
+                    myShiftDay.setEarlyExitHours(0);
+                }
                 try {
                     sumTime();
                 } catch (ParseException e) {
@@ -378,10 +404,14 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String min = earlyExitMin.getText().toString();
-                if(!min.equals(""))
+                if(!min.equals("")) {
                     earlyExitTimeTextMin.setText(min + " m");
-                else
+                    myShiftDay.setEarlyExitMin(Integer.parseInt(min));
+                }
+                else {
                     earlyExitTimeTextMin.setText("0 m");
+                    myShiftDay.setEarlyExitMin(0);
+                }
                 try {
                     sumTime();
                 } catch (ParseException e) {
@@ -400,10 +430,14 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String hours = extraTimeHours.getText().toString();
-                if(!hours.equals(""))
+                if(!hours.equals("")) {
                     extraTimeTextHour.setText(hours + " h");
-                else
+                    myShiftDay.setExtraTimeHours(Integer.parseInt(hours));
+                }
+                else {
                     extraTimeTextHour.setText("0 h");
+                    myShiftDay.setExtraTimeHours(0);
+                }
                 try {
                     sumTime();
                 } catch (ParseException e) {
@@ -422,10 +456,14 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String min = extraTimeMin.getText().toString();
-                if(!min.equals(""))
+                if(!min.equals("")) {
                     extraTimeTextMin.setText(min + " m");
-                else
+                    myShiftDay.setExtraTimeMin(Integer.parseInt(min));
+                }
+                else {
                     extraTimeTextMin.setText("0 m");
+                    myShiftDay.setExtraTimeMin(0);
+                }
                 try {
                     sumTime();
                 } catch (ParseException e) {
@@ -479,8 +517,10 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
 
         hours += extraHours;
 
-        this.totalTimeTextMin.setText(Integer.toString(min) + " m");
-        this.totalTimeTextHour.setText(Integer.toString(hours) + " h");
+        Log.d("Debug", hours+"");
+
+        this.totalTimeTextMin.setText(min + " m");
+        this.totalTimeTextHour.setText(hours + " h");
 
     }
 
@@ -500,9 +540,6 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
         min = this.extraTimeMin.getText().toString();
         this.extraTimeTextHour.setText(hours + " h");
         this.extraTimeTextMin.setText(min + " m");
-
-        this.totalTimeTextHour.setText(this.shiftTimeHours.getText().toString());
-        this.totalTimeTextMin.setText(this.shiftTimeMin.getText().toString());
 
     }
 
@@ -541,6 +578,7 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
                     tempIncomePerHour = 0;
                 else
                     tempIncomePerHour = Double.parseDouble(incomePerHourEditText.getText().toString());
+                myShiftDay.setIncomePerHour(tempIncomePerHour);
                 int totalHours = Integer.parseInt(totalTimeTextHour.getText().toString().replaceAll(" h", ""));
                 int totalMin = Integer.parseInt(totalTimeTextMin.getText().toString().replaceAll(" m", ""));
                 int extraHours = Integer.parseInt(extraTimeTextHour.getText().toString().replaceAll(" h", ""));
@@ -569,6 +607,7 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
                     tempIncomePerExtraHour = 0;
                 else
                     tempIncomePerExtraHour = Double.parseDouble(incomePerExtraHourEditText.getText().toString());
+                myShiftDay.setIncomePerExtraHour(tempIncomePerExtraHour);
                 int extraHours = Integer.parseInt(extraTimeTextHour.getText().toString().replaceAll(" h", ""));
                 int extraMin = Integer.parseInt(extraTimeTextMin.getText().toString().replaceAll(" m", ""));
                 double income1 = tempIncomePerExtraHour * (extraHours + ((double) extraMin / 60));

@@ -615,7 +615,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="extra Income"
+                    android:text="Extra Income"
                     android:textSize="16dp"/>
 
                 <EditText
