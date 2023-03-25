@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded_gray_view"
+    android:layout_gravity="center">
+
+    <ImageButton
+        android:id="@+id/previousYearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/baseline_keyboard_arrow_left_24"
+        android:layout_gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/YearTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2023"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="5dp"
+        android:layout_gravity="center"/>
+
+    <ImageButton
+        android:id="@+id/nextYearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="1.25"
+        android:scaleY="1.25"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/baseline_keyboard_arrow_right_24"
+        android:layout_gravity="center_vertical"/>
+
+</LinearLayout>
