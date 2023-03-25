@@ -63,18 +63,17 @@ public class MainActivity extends AppCompatActivity {
 
     //Temp
     private void initializingDays(){
-        Calendar tempCal = Calendar.getInstance();
-        tempCal.set(2023 + 1900, 3, 17);
-        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), null));
-        tempCal = Calendar.getInstance();
-        tempCal.set(2023 + 1900, 3, 18);
-        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(1), "Testing notes!"));
-        tempCal = Calendar.getInstance();
-        tempCal.set(2023 + 1900, 3, 19);
-        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(2), null));
-        tempCal = Calendar.getInstance();
-        tempCal.set(2023 + 1900, 3, 20);
-        this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(3), "Some notes!"));
+        Calendar tempCal;
+        int shiftNum = 1;
+        for(int i = 4; i<= 18; i++){
+            tempCal = Calendar.getInstance();
+            tempCal.set(2023 + 1900, 4, i);
+            this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(shiftNum), null));
+            if(shiftNum == 4)
+                shiftNum = 1;
+            else
+                shiftNum ++;
+        }
         Log.d("Debug", "ShiftDayList.size() = " + this.shiftDayList.size());
     }
 
