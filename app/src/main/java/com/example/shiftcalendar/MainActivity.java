@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new CalendarFragment(this.shiftList, this.shiftDayList));
                     break;
                 case R.id.navigation_summary:
-                    replaceFragment(new SummaryFragment());
+                    replaceFragment(new SummaryFragment(this.shiftDayList));
                     break;
                 case R.id.navigation_shifts:
                     replaceFragment(new ShiftsFragment(this.shiftList));
@@ -70,6 +70,16 @@ public class MainActivity extends AppCompatActivity {
             tempCal.set(2023 + 1900, 4, i);
             this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(shiftNum), null));
             if(shiftNum == 4)
+                shiftNum = 1;
+            else
+                shiftNum ++;
+        }
+        shiftNum = 1;
+        for(int i = 1; i<= 10; i++){
+            tempCal = Calendar.getInstance();
+            tempCal.set(2023 + 1900, 3, i);
+            this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(shiftNum), null));
+            if(shiftNum == 2)
                 shiftNum = 1;
             else
                 shiftNum ++;

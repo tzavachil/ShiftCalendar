@@ -2,6 +2,7 @@ package com.example.shiftcalendar;
 
 import android.util.Log;
 
+import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -56,4 +57,14 @@ public class ShiftDayList {
     public int size() { return this.shiftDaysList.size(); }
 
 
+    public ArrayList<ShiftDay> searchByMonth(int month, int year) {
+        ArrayList<ShiftDay> currShiftDayList = new ArrayList<>();
+
+        for(ShiftDay shiftDay: this.shiftDaysList){
+            if(shiftDay.getCalendar().get(Calendar.MONTH) == month && shiftDay.getCalendar().get(Calendar.YEAR)-1900 == year)
+                currShiftDayList.add(shiftDay);
+        }
+
+        return currShiftDayList;
+    }
 }
