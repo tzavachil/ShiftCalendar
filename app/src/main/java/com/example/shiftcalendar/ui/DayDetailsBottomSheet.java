@@ -688,7 +688,7 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
         totalIncome.setText(Double.toString(income1 + income2 + income3));
     }
 
-    private String timeDifferenceToString(String time1, String time2) throws ParseException {
+    public static String timeDifferenceToString(String time1, String time2) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm");
         Date date1 = format.parse(time1);
         Date date2 = format.parse(time2);

@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -22,7 +24,11 @@ import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.Shift;
 import com.example.shiftcalendar.ShiftDay;
 import com.example.shiftcalendar.ShiftDayList;
+import com.example.shiftcalendar.ui.DayDetailsBottomSheet;
+import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
+import com.example.shiftcalendar.ui.summary.ShiftRecyclerViewAdapter;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,7 +39,7 @@ public class MonthSelectorFragment extends Fragment {
     private ImageButton previousMonthButton;
     private ImageButton nextMonthButton;
     private TextView monthTextView;
-    private GridLayout gridLayout;
+    private RecyclerView shiftRecyclerView;
 
     private ShiftDayList shiftDayList;
     private ArrayList<ShiftDay> currShiftDayList;
@@ -53,7 +59,7 @@ public class MonthSelectorFragment extends Fragment {
         this.now = LocalDate.now();
 
         this.monthTextView = view.findViewById(R.id.monthTextView);
-        this.gridLayout = view.findViewById(R.id.gridLayout);
+        this.shiftRecyclerView = view.findViewById(R.id.shiftRecyclerView);
 
         this.monthTextView.setText(this.monthYearFromDate(now));
         this.searchOnList();
@@ -105,7 +111,6 @@ public class MonthSelectorFragment extends Fragment {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void searchOnList(){
-        String text = this.monthTextView.getText().toString();
         int month = now.getMonth().getValue();
         int year = now.getYear();
         this.currShiftDayList = this.shiftDayList.searchByMonth(month, year);
@@ -113,23 +118,69 @@ public class MonthSelectorFragment extends Fragment {
     }
 
     private void displayList(){
-        int rows = this.countShiftsOnList();
-        this.gridLayout.setRowCount(rows);
+        try {
+            ShiftRecyclerViewAdapter adapter = new ShiftRecyclerViewAdapter(this.getShiftsData(this.currShiftDayList), this.getContext());
+            GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 1);
 
+            shiftRecyclerView.setLayoutManager(layoutManager);
+            shiftRecyclerView.setAdapter(adapter);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 
-    private int countShiftsOnList(){
+    private ArrayList<ShiftRecyclerData> getShiftsData(ArrayList<ShiftDay> shiftDaysList) throws ParseException {
 
-        ArrayList<Shift> shifts = new ArrayList<>();
+        ArrayList<ShiftRecyclerData> shifts = new ArrayList<>();
+        ShiftRecyclerData tempShift;
 
-       for(ShiftDay shiftDay: this.currShiftDayList){
-           Shift currShift = shiftDay.getShift();
-           if(!shifts.contains(currShift)){
-               shifts.add(currShift);
-           }
-       }
+        for(ShiftDay shiftDay : shiftDaysList){
 
-        return shifts.size();
+            String timeDifference = DayDetailsBottomSheet.timeDifferenceToString(shiftDay.getShift().getStartTime().toString(), shiftDay.getShift().getEndTime().toString());
+            String shiftHoursText = timeDifference.split("/")[0];
+            int shiftHours = Integer.parseInt(shiftHoursText.substring(0, shiftHoursText.length()-2));
+            String shiftMinText = timeDifference.split("/")[1];
+            int shiftMin = Integer.parseInt(shiftMinText.substring(0, shiftMinText.length()-2));
+            int extraHours = shiftDay.getExtraTimeHours();
+            int extraMin = shiftDay.getExtraTimeMin();
+            int earlyHours = shiftDay.getEarlyExitHours();
+            int earlyMin = shiftDay.getEarlyExitMin();
+            shiftHours -= earlyHours;
+            if(earlyMin > shiftMin){
+                shiftMin = 60 - earlyMin + shiftMin;
+                shiftHours--;
+            }
+            else{
+                shiftMin -= earlyMin;
+            }
+
+            ShiftRecyclerData shiftRecyclerData = this.containsData(shifts, shiftDay.getShift());
+
+            if(shiftRecyclerData == null){
+                tempShift = new ShiftRecyclerData(shiftDay.getShift(), 1, shiftHours, shiftMin, extraHours, extraMin);
+                shifts.add(tempShift);
+            }
+            else{
+                shiftRecyclerData.increaseCount();
+                shiftRecyclerData.increaseHours(shiftHours);
+                shiftRecyclerData.increaseMin(shiftMin);
+                shiftRecyclerData.increaseExtraHours(extraHours);
+                shiftRecyclerData.increaseExtraMin(extraMin);
+            }
+        }
+
+        Log.d("Debug", String.valueOf(shifts.size()));
+
+        return shifts;
+    }
+
+    private ShiftRecyclerData containsData(ArrayList<ShiftRecyclerData> shifts, Shift shift){
+
+        for(ShiftRecyclerData shiftRecyclerData: shifts){
+            if(shiftRecyclerData.getShift() == shift) return shiftRecyclerData;
+        }
+
+        return null;
     }
 
 }

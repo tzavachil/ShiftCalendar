@@ -2,6 +2,8 @@ package com.example.shiftcalendar;
 
 import android.util.Log;
 
+import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
+
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
