@@ -95,18 +95,58 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rounded_gray_view"
-        android:padding="10dp"
-        android:layout_margin="5dp">
+        android:layout_margin="5dp"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Overview"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/shiftDayRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_gray_view"
+            android:gravity="end"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="42 h 30 m"
+                android:textStyle="bold"
+                android:layout_marginEnd="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="52€"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
 
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_file_export"
+        android:textAllCaps="false"
+        android:text="Export"
+        android:textColor="@color/light_grey"/>
 
 </LinearLayout>

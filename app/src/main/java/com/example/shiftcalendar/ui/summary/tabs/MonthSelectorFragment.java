@@ -1,12 +1,12 @@
 package com.example.shiftcalendar.ui.summary.tabs;
 
-import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
@@ -15,9 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shiftcalendar.R;
@@ -25,14 +23,15 @@ import com.example.shiftcalendar.Shift;
 import com.example.shiftcalendar.ShiftDay;
 import com.example.shiftcalendar.ShiftDayList;
 import com.example.shiftcalendar.ui.DayDetailsBottomSheet;
+import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerData;
 import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
+import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerViewAdapter;
 import com.example.shiftcalendar.ui.summary.ShiftRecyclerViewAdapter;
 
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MonthSelectorFragment extends Fragment {
 
@@ -40,6 +39,7 @@ public class MonthSelectorFragment extends Fragment {
     private ImageButton nextMonthButton;
     private TextView monthTextView;
     private RecyclerView shiftRecyclerView;
+    private RecyclerView shiftDayRecyclerView;
 
     private ShiftDayList shiftDayList;
     private ArrayList<ShiftDay> currShiftDayList;
@@ -60,6 +60,7 @@ public class MonthSelectorFragment extends Fragment {
 
         this.monthTextView = view.findViewById(R.id.monthTextView);
         this.shiftRecyclerView = view.findViewById(R.id.shiftRecyclerView);
+        this.shiftDayRecyclerView = view.findViewById(R.id.shiftDayRecyclerView);
 
         this.monthTextView.setText(this.monthYearFromDate(now));
         this.searchOnList();
@@ -115,18 +116,55 @@ public class MonthSelectorFragment extends Fragment {
         int year = now.getYear();
         this.currShiftDayList = this.shiftDayList.searchByMonth(month, year);
         this.displayList();
+        this.displayOverview();
     }
 
     private void displayList(){
         try {
             ShiftRecyclerViewAdapter adapter = new ShiftRecyclerViewAdapter(this.getShiftsData(this.currShiftDayList), this.getContext());
-            GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 1);
+            GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 1){
+                @Override
+                public boolean canScrollVertically(){
+                    return false;
+                }
+                @Override
+                public boolean canScrollHorizontally(){
+                    return false;
+                }
+            };
 
             shiftRecyclerView.setLayoutManager(layoutManager);
             shiftRecyclerView.setAdapter(adapter);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void displayOverview(){
+        //try {
+            ShiftDayRecyclerViewAdapter adapter = new ShiftDayRecyclerViewAdapter(this.getShiftDayData(this.currShiftDayList), this.getContext());
+            //GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 1);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+
+            shiftDayRecyclerView.setLayoutManager(layoutManager);
+            shiftDayRecyclerView.setAdapter(adapter);
+        /*} catch (ParseException e) {
+            throw new RuntimeException(e);
+        }*/
+    }
+
+    private ArrayList<ShiftDayRecyclerData> getShiftDayData(ArrayList<ShiftDay> shiftDaysList){
+
+        ArrayList<ShiftDayRecyclerData> shiftDays = new ArrayList<>();
+        ShiftDayRecyclerData tempShiftDay;
+
+        for(ShiftDay shiftDay : shiftDaysList){
+            tempShiftDay = new ShiftDayRecyclerData(shiftDay);
+            shiftDays.add(tempShiftDay);
+        }
+
+
+        return shiftDays;
     }
 
     private ArrayList<ShiftRecyclerData> getShiftsData(ArrayList<ShiftDay> shiftDaysList) throws ParseException {
