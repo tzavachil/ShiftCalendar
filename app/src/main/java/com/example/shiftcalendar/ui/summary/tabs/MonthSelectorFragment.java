@@ -48,6 +48,7 @@ public class MonthSelectorFragment extends Fragment {
 
     public MonthSelectorFragment(ShiftDayList shiftDayList) {
         this.shiftDayList = shiftDayList;
+        this.shiftDayList.sort();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -141,16 +142,11 @@ public class MonthSelectorFragment extends Fragment {
     }
 
     private void displayOverview(){
-        //try {
-            ShiftDayRecyclerViewAdapter adapter = new ShiftDayRecyclerViewAdapter(this.getShiftDayData(this.currShiftDayList), this.getContext());
-            //GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 1);
-            LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
+        ShiftDayRecyclerViewAdapter adapter = new ShiftDayRecyclerViewAdapter(this.getShiftDayData(this.currShiftDayList), this.getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
 
-            shiftDayRecyclerView.setLayoutManager(layoutManager);
-            shiftDayRecyclerView.setAdapter(adapter);
-        /*} catch (ParseException e) {
-            throw new RuntimeException(e);
-        }*/
+        shiftDayRecyclerView.setLayoutManager(layoutManager);
+        shiftDayRecyclerView.setAdapter(adapter);
     }
 
     private ArrayList<ShiftDayRecyclerData> getShiftDayData(ArrayList<ShiftDay> shiftDaysList){

@@ -36,7 +36,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         this.onItemListener = onItemListener;
         this.monthYearTV = monthYearTV;
         this.rootFragment = rootFragment;
-        this.shiftDayList = new ShiftDayList();
         this.shiftList = sL;
         this.shiftDayList = sDL;
     }

@@ -3,8 +3,9 @@ package com.example.shiftcalendar;
 import android.content.Context;
 
 import java.sql.Time;
+import java.util.Collection;
 
-public class Shift {
+public class Shift implements Comparable<Shift> {
 
     private String name;
     private int lineColor;
@@ -85,4 +86,11 @@ public class Shift {
     public double getIncomePerExtraHour() {return incomePerExtraHour;}
 
     public void setIncomePerExtraHour(double incomePerExtraHour) {this.incomePerExtraHour = incomePerExtraHour;}
+
+    @Override
+    public int compareTo(Shift o) {
+
+
+        return 0;
+    }
 }

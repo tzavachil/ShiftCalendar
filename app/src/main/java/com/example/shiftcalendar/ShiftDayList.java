@@ -7,6 +7,7 @@ import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
 import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 
 public class ShiftDayList {
 
@@ -34,7 +35,7 @@ public class ShiftDayList {
 
     public ShiftDay contains(int day, int month, int year){
         ShiftDay tempShiftDay = null;
-        year += 1900;
+        month--;
         for(ShiftDay sd: this.shiftDaysList){
             if(tempShiftDay == null && this.areEqualWithInt(sd, day, month, year))
                 tempShiftDay = sd;
@@ -63,10 +64,14 @@ public class ShiftDayList {
         ArrayList<ShiftDay> currShiftDayList = new ArrayList<>();
 
         for(ShiftDay shiftDay: this.shiftDaysList){
-            if(shiftDay.getCalendar().get(Calendar.MONTH) == month && shiftDay.getCalendar().get(Calendar.YEAR)-1900 == year)
+            if(shiftDay.getCalendar().get(Calendar.MONTH) == month-1 && shiftDay.getCalendar().get(Calendar.YEAR) == year)
                 currShiftDayList.add(shiftDay);
         }
 
         return currShiftDayList;
+    }
+
+    public void sort(){
+        Collections.sort(this.shiftDaysList);
     }
 }

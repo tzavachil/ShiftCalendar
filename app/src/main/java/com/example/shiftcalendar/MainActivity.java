@@ -16,6 +16,7 @@ import com.example.shiftcalendar.ui.shifts.ShiftsFragment;
 import com.example.shiftcalendar.ui.summary.SummaryFragment;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         int shiftNum = 1;
         for(int i = 4; i<= 18; i++){
             tempCal = Calendar.getInstance();
-            tempCal.set(2023 + 1900, 4, i);
+            tempCal.set(2023, 3, i);
             this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(shiftNum), null));
             if(shiftNum == 4)
                 shiftNum = 1;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         shiftNum = 1;
         for(int i = 1; i<= 10; i++){
             tempCal = Calendar.getInstance();
-            tempCal.set(2023 + 1900, 3, i);
+            tempCal.set(2023, 2, i);
             this.shiftDayList.addDay(new ShiftDay(tempCal, shiftList.get(shiftNum), null));
             if(shiftNum == 2)
                 shiftNum = 1;

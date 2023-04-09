@@ -125,7 +125,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         int currDay = Integer.parseInt(this.dayOfMonth.getText().toString());
 
         Calendar tempCal = Calendar.getInstance();
-        tempCal.set(currYear + 1900, currMonth, currDay);
+        tempCal.set(currYear, currMonth, currDay);
 
         return new ShiftDay(tempCal, this);
     }

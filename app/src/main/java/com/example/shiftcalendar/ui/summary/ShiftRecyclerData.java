@@ -49,7 +49,12 @@ public class ShiftRecyclerData {
     }
 
     public void increaseMin(int min) {
+
         this.min += min;
+        if(this.min > 59) {
+            this.hours++;
+            this.min -= 60;
+        }
     }
 
     public int getExtraHours() {

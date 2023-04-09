@@ -4,7 +4,7 @@ import com.example.shiftcalendar.ui.calendar.CalendarViewHolder;
 
 import java.util.Calendar;
 
-public class ShiftDay {
+public class ShiftDay implements Comparable<ShiftDay>{
 
     private Calendar calendar;
     private int color;
@@ -148,5 +148,10 @@ public class ShiftDay {
             text += "\n" + this.shift.getName() + "|" + String.format("#%06X", (0xFFFFFF & this.shift.getBackgroundColor()));
 
         return text;
+    }
+
+    @Override
+    public int compareTo(ShiftDay o) {
+        return this.calendar.compareTo(o.getCalendar());
     }
 }
