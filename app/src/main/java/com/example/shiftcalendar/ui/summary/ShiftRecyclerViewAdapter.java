@@ -2,12 +2,15 @@ package com.example.shiftcalendar.ui.summary;
 
 import android.content.Context;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shiftcalendar.R;
@@ -59,6 +62,9 @@ public class ShiftRecyclerViewAdapter extends RecyclerView.Adapter<ShiftRecycler
         private TextView timeTextView;
         private TextView extraTimeTextView;
 
+        private LinearLayout shiftLayout;
+        private ConstraintLayout shiftRecyclerViewLayout;
+
         public ShiftRecyclerViewHolder(@NonNull View itemView) {
             super(itemView);
             this.shiftNameTextView = itemView.findViewById(R.id.shiftNameTextView);
@@ -66,6 +72,32 @@ public class ShiftRecyclerViewAdapter extends RecyclerView.Adapter<ShiftRecycler
             this.countTextView = itemView.findViewById(R.id.countTextView);
             this.timeTextView = itemView.findViewById(R.id.timeTextView);
             this.extraTimeTextView = itemView.findViewById(R.id.extraTimeTextView);
+
+            this.shiftLayout = itemView.findViewById(R.id.shiftLayout);
+            this.shiftRecyclerViewLayout = itemView.findViewById(R.id.shiftRecyclerViewLayout);
+            this.shiftLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(shiftRecyclerViewLayout.isEnabled()) {
+                        setViewAndChildrenEnabled(shiftRecyclerViewLayout, false);
+                        shiftLayout.setEnabled(true);
+                    }
+                    else {
+                        setViewAndChildrenEnabled(shiftRecyclerViewLayout, true);
+                    }
+                }
+            });
+        }
+
+        private void setViewAndChildrenEnabled(View view, boolean enabled){
+            view.setEnabled(enabled);
+            if(view instanceof ViewGroup){
+                ViewGroup viewGroup = (ViewGroup) view;
+                for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                    View child = viewGroup.getChildAt(i);
+                    setViewAndChildrenEnabled(child, enabled);
+                }
+            }
         }
     }
 }
