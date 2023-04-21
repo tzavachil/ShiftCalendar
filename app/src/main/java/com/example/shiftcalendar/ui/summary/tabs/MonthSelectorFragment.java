@@ -32,6 +32,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class MonthSelectorFragment extends Fragment {
 
@@ -43,6 +44,7 @@ public class MonthSelectorFragment extends Fragment {
 
     private ShiftDayList shiftDayList;
     private ArrayList<ShiftDay> currShiftDayList;
+    private ArrayList<ShiftDay> tempShiftDayList;
 
     private LocalDate now;
 
@@ -116,13 +118,14 @@ public class MonthSelectorFragment extends Fragment {
         int month = now.getMonth().getValue();
         int year = now.getYear();
         this.currShiftDayList = this.shiftDayList.searchByMonth(month, year);
+        this.tempShiftDayList = new ArrayList<>(this.currShiftDayList);
         this.displayList();
-        this.displayOverview();
+        this.displayOverview(this.currShiftDayList);
     }
 
     private void displayList(){
         try {
-            ShiftRecyclerViewAdapter adapter = new ShiftRecyclerViewAdapter(this.getShiftsData(this.currShiftDayList), this.getContext());
+            ShiftRecyclerViewAdapter adapter = new ShiftRecyclerViewAdapter(this.getShiftsData(this.currShiftDayList), this.getContext(), this);
             GridLayoutManager layoutManager = new GridLayoutManager(this.getContext(), 1){
                 @Override
                 public boolean canScrollVertically(){
@@ -141,12 +144,41 @@ public class MonthSelectorFragment extends Fragment {
         }
     }
 
-    private void displayOverview(){
-        ShiftDayRecyclerViewAdapter adapter = new ShiftDayRecyclerViewAdapter(this.getShiftDayData(this.currShiftDayList), this.getContext());
+    private void displayOverview(ArrayList<ShiftDay> overviewList){
+        ShiftDayRecyclerViewAdapter adapter = new ShiftDayRecyclerViewAdapter(this.getShiftDayData(overviewList), this.getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
 
         shiftDayRecyclerView.setLayoutManager(layoutManager);
         shiftDayRecyclerView.setAdapter(adapter);
+    }
+
+    public void displayOverviewWithoutShift(String shiftName){
+        ArrayList<ShiftDay> removingElements = new ArrayList<>();
+        for(ShiftDay shiftDay: this.tempShiftDayList){
+            if(shiftDay.getShift().getName().equals(shiftName)){
+                removingElements.add(shiftDay);
+            }
+        }
+        this.tempShiftDayList.removeAll(removingElements);
+        this.displayOverview(this.tempShiftDayList);
+    }
+
+    public void displayOverviewWithShift(String shiftName){
+        Log.d("Debug", "with " + shiftName);
+        ArrayList<ShiftDay> addingElements = new ArrayList<>();
+        for(ShiftDay shiftDay: this.currShiftDayList){
+            if(shiftDay.getShift().getName().equals(shiftName)){
+                addingElements.add(shiftDay);
+            }
+        }
+        this.tempShiftDayList.addAll(addingElements);
+        this.tempShiftDayList.sort(new Comparator<ShiftDay>() {
+            @Override
+            public int compare(ShiftDay shiftDay, ShiftDay t1) {
+                return shiftDay.compareTo(t1);
+            }
+        });
+        this.displayOverview(this.tempShiftDayList);
     }
 
     private ArrayList<ShiftDayRecyclerData> getShiftDayData(ArrayList<ShiftDay> shiftDaysList){

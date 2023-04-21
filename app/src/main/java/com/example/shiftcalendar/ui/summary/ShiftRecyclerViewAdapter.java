@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shiftcalendar.R;
+import com.example.shiftcalendar.ui.summary.tabs.MonthSelectorFragment;
 
 import java.util.ArrayList;
 
@@ -21,10 +22,13 @@ public class ShiftRecyclerViewAdapter extends RecyclerView.Adapter<ShiftRecycler
 
     private ArrayList<ShiftRecyclerData> shiftDataArrayList;
     private Context context;
+    private MonthSelectorFragment parentMonthSelectorFragment;
 
-    public ShiftRecyclerViewAdapter(ArrayList<ShiftRecyclerData> recyclerDataArrayList, Context context) {
+
+    public ShiftRecyclerViewAdapter(ArrayList<ShiftRecyclerData> recyclerDataArrayList, Context context, MonthSelectorFragment monthSelectorFragment) {
         this.shiftDataArrayList = recyclerDataArrayList;
         this.context = context;
+        this.parentMonthSelectorFragment = monthSelectorFragment;
     }
 
     @NonNull
@@ -81,9 +85,11 @@ public class ShiftRecyclerViewAdapter extends RecyclerView.Adapter<ShiftRecycler
                     if(shiftRecyclerViewLayout.isEnabled()) {
                         setViewAndChildrenEnabled(shiftRecyclerViewLayout, false);
                         shiftLayout.setEnabled(true);
+                        parentMonthSelectorFragment.displayOverviewWithoutShift(shiftNameTextView.getText().toString());
                     }
                     else {
                         setViewAndChildrenEnabled(shiftRecyclerViewLayout, true);
+                        parentMonthSelectorFragment.displayOverviewWithShift(shiftNameTextView.getText().toString());
                     }
                 }
             });
