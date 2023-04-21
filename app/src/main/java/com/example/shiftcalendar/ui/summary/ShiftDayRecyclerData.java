@@ -73,7 +73,7 @@ public class ShiftDayRecyclerData {
         return startTime.split(":")[0] + ":" + startTime.split(":")[1] + " - " + hoursToText + ":" + minutesToText;
     }
 
-    private String calculateHours(ShiftDay shiftDay) throws ParseException {
+    public static String calculateHours(ShiftDay shiftDay) throws ParseException {
 
         String timeDifference = DayDetailsBottomSheet.timeDifferenceToString(shiftDay.getShift().getStartTime().toString(), shiftDay.getShift().getEndTime().toString());
         String shiftHoursText = timeDifference.split("/")[0];

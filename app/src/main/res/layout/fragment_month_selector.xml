@@ -122,6 +122,7 @@
             android:paddingVertical="5dp">
 
             <TextView
+                android:id="@+id/totalHours"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="42 h 30 m"
@@ -129,6 +130,7 @@
                 android:layout_marginEnd="20dp"/>
 
             <TextView
+                android:id="@+id/totalExtraIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="52€"

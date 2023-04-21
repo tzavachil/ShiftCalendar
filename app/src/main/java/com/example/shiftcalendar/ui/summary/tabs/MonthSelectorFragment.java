@@ -41,6 +41,8 @@ public class MonthSelectorFragment extends Fragment {
     private TextView monthTextView;
     private RecyclerView shiftRecyclerView;
     private RecyclerView shiftDayRecyclerView;
+    private TextView totalHours;
+    private TextView totalExtraIncome;
 
     private ShiftDayList shiftDayList;
     private ArrayList<ShiftDay> currShiftDayList;
@@ -64,6 +66,9 @@ public class MonthSelectorFragment extends Fragment {
         this.monthTextView = view.findViewById(R.id.monthTextView);
         this.shiftRecyclerView = view.findViewById(R.id.shiftRecyclerView);
         this.shiftDayRecyclerView = view.findViewById(R.id.shiftDayRecyclerView);
+
+        this.totalHours = view.findViewById(R.id.totalHours);
+        this.totalExtraIncome = view.findViewById(R.id.totalExtraIncome);
 
         this.monthTextView.setText(this.monthYearFromDate(now));
         this.searchOnList();
@@ -148,8 +153,45 @@ public class MonthSelectorFragment extends Fragment {
         ShiftDayRecyclerViewAdapter adapter = new ShiftDayRecyclerViewAdapter(this.getShiftDayData(overviewList), this.getContext());
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getContext());
 
+        try {
+            this.setTotalValues(overviewList);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+
         shiftDayRecyclerView.setLayoutManager(layoutManager);
         shiftDayRecyclerView.setAdapter(adapter);
+    }
+
+    private void setTotalValues(ArrayList<ShiftDay> overviewList) throws ParseException {
+
+        int hours = 0;
+        int min = 0;
+        double income = 0;
+
+        for(ShiftDay shiftDay: overviewList){
+            String time = ShiftDayRecyclerData.calculateHours(shiftDay);
+
+            int tempHours = Integer.parseInt(time.split(" ")[0]);
+            int tempMin = Integer.parseInt(time.split(" ")[2]);
+
+            hours += tempHours;
+            min += tempMin;
+            if(min > 59){
+                min -= 60;
+                hours ++;
+            }
+
+            income += shiftDay.getExtraIncome();
+        }
+
+        String hoursStr = String.valueOf(hours);
+        if(hours < 10) hoursStr = "0" + hoursStr;
+        String minStr = String.valueOf(min);
+        if(min < 10) minStr = "0" + minStr;
+
+        this.totalHours.setText(hoursStr + " h " + minStr + " m");
+        this.totalExtraIncome.setText(String.valueOf(income));
     }
 
     public void displayOverviewWithoutShift(String shiftName){

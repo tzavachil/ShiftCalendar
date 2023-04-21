@@ -634,6 +634,8 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
                     tempExtraIncome = 0;
                 else
                     tempExtraIncome = Double.parseDouble(extraIncome.getText().toString());
+                myShiftDay.setExtraIncome(tempExtraIncome);
+
                 double income1 = tempExtraIncome;
 
                 double income2 = Double.parseDouble(incomePerHourTV.getText().toString());
