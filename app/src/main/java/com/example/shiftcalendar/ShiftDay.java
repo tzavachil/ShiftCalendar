@@ -143,7 +143,7 @@ public class ShiftDay implements Comparable<ShiftDay>{
 
         text = "Date: " + this.calendar.get(Calendar.DAY_OF_MONTH) + "/";
         text += this.calendar.get(Calendar.MONTH) + "/";
-        text += String.valueOf(this.calendar.get(Calendar.YEAR) - 1900);
+        text += String.valueOf(this.calendar.get(Calendar.YEAR));
         if(this.shift != null)
             text += "\n" + this.shift.getName() + "|" + String.format("#%06X", (0xFFFFFF & this.shift.getBackgroundColor()));
 

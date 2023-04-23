@@ -1,13 +1,20 @@
 package com.example.shiftcalendar;
 
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
 
 import java.sql.Array;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 public class ShiftDayList {
 
@@ -18,6 +25,7 @@ public class ShiftDayList {
     }
 
     public void addDay(ShiftDay day){
+        Log.d("Debug", "Before add: " + day.toString());
         ShiftDay tempShiftDay = this.contains(day);
         if(tempShiftDay != null)
             this.shiftDaysList.remove(tempShiftDay);
@@ -82,7 +90,47 @@ public class ShiftDayList {
         return currShiftDayList;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public ArrayList<ShiftDay> searchByRange(LocalDate dateFrom, LocalDate dateTo){
+        ArrayList<ShiftDay> currShiftDayList = new ArrayList<>();
+
+        for(ShiftDay shiftDay: this.shiftDaysList){
+            Log.d("Debug", calendarToLocalDate(shiftDay.getCalendar()) + " vs " + dateFrom + " = " + calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateFrom));
+            Log.d("Debug", calendarToLocalDate(shiftDay.getCalendar()) + " vs " + dateTo + " = " + calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateTo));
+            if(calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateFrom) >= 0 && calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateTo) <= 0){
+                currShiftDayList.add(shiftDay);
+            }
+        }
+
+        return currShiftDayList;
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private LocalDate calendarToLocalDate(Calendar calendar){
+        return LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+    }
+
+    private String calendarToString(Calendar calendar){
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+        if (calendar != null) {
+            return sdf.format(calendar.getTime());
+        }
+
+        return null;
+    }
+
     public void sort(){
         Collections.sort(this.shiftDaysList);
+    }
+
+    public void print(){
+        for(ShiftDay shiftDay: this.shiftDaysList){
+            Log.d("Debug", calendarToString(shiftDay.getCalendar()));
+        }
+    }
+
+    public ShiftDay get(int i){
+        return this.shiftDaysList.get(i);
     }
 }

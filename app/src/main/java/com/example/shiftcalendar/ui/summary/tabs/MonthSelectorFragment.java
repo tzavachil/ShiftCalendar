@@ -209,7 +209,6 @@ public class MonthSelectorFragment extends SelectorFragment{
 
     @Override
     public void displayOverviewWithShift(String shiftName){
-        Log.d("Debug", "with " + shiftName);
         ArrayList<ShiftDay> addingElements = new ArrayList<>();
         for(ShiftDay shiftDay: this.currShiftDayList){
             if(shiftDay.getShift().getName().equals(shiftName)){

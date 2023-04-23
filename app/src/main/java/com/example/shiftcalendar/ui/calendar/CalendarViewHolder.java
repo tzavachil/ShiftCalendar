@@ -111,8 +111,9 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     }
 
     public void saveDayChanges(ShiftDay currShiftDay){
-        Log.d("Debug", this.myShiftDay.toString());
         this.shiftDayList.addDay(currShiftDay);
+        this.shiftDayList.print();
+        this.shiftDayList.sort();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -121,7 +122,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
         int length = this.monthYearTV.getText().toString().length();
         int currYear = Integer.parseInt(this.monthYearTV.getText().toString().substring(length-4, length));
         String monthInText = this.monthYearTV.getText().toString().substring(0, length-5);
-        int currMonth = this.getNumberFromMonthName(monthInText);
+        int currMonth = this.getNumberFromMonthName(monthInText) - 1;
         int currDay = Integer.parseInt(this.dayOfMonth.getText().toString());
 
         Calendar tempCal = Calendar.getInstance();
