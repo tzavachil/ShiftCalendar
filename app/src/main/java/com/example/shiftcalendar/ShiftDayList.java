@@ -71,6 +71,17 @@ public class ShiftDayList {
         return currShiftDayList;
     }
 
+    public ArrayList<ShiftDay> searchByYear(int year) {
+        ArrayList<ShiftDay> currShiftDayList = new ArrayList<>();
+
+        for(ShiftDay shiftDay: this.shiftDaysList){
+            if(shiftDay.getCalendar().get(Calendar.YEAR) == year)
+                currShiftDayList.add(shiftDay);
+        }
+
+        return currShiftDayList;
+    }
+
     public void sort(){
         Collections.sort(this.shiftDaysList);
     }

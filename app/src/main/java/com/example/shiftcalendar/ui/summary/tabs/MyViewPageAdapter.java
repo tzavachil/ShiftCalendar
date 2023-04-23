@@ -25,7 +25,7 @@ public class MyViewPageAdapter extends FragmentStateAdapter {
             case 0:
                 return new MonthSelectorFragment(this.shiftDayList);
             case 1:
-                return new YearSelectorFragment();
+                return new YearSelectorFragment(this.shiftDayList);
             case 2:
                 return new RangeSelectorFragment();
             default:

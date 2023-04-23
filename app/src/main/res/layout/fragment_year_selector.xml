@@ -1,37 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@drawable/rounded_gray_view"
-    android:layout_gravity="center">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
-    <ImageButton
-        android:id="@+id/previousYearButton"
+    <LinearLayout
+        android:id="@+id/yearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
-        android:layout_marginEnd="10dp"
-        android:background="@drawable/baseline_keyboard_arrow_left_24"
-        android:layout_gravity="center_vertical"/>
+        android:layout_marginVertical="20dp"
+        android:background="@drawable/rounded_gray_view">
 
-    <TextView
-        android:id="@+id/YearTextView"
+        <ImageButton
+            android:id="@+id/previousYearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.25"
+            android:scaleY="1.25"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/baseline_keyboard_arrow_left_24"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/yearTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2023"
+            android:textSize="17dp"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="5dp"
+            android:layout_gravity="center"/>
+
+        <ImageButton
+            android:id="@+id/nextYearButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleX="1.25"
+            android:scaleY="1.25"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/baseline_keyboard_arrow_right_24"
+            android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Count"
+            android:textSize="11dp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/count"
+            app:layout_constraintEnd_toStartOf="@id/extraTime"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Time"
+            android:textSize="11dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="20dp"/>
+
+        <TextView
+            android:id="@+id/extraTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:text="Count"
+            android:textSize="11dp"
+            android:textStyle="bold"
+            android:layout_marginEnd="15dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/shiftRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_gray_view"
+        android:layout_margin="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Overview"
+            android:textStyle="bold"
+            android:layout_margin="10dp"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/shiftDayRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@drawable/rounded_gray_view"
+            android:gravity="end"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp">
+
+            <TextView
+                android:id="@+id/totalHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="42 h 30 m"
+                android:textStyle="bold"
+                android:layout_marginEnd="20dp"/>
+
+            <TextView
+                android:id="@+id/totalExtraIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="52€"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2023"
-        android:paddingHorizontal="15dp"
-        android:paddingVertical="5dp"
-        android:layout_gravity="center"/>
-
-    <ImageButton
-        android:id="@+id/nextYearButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleX="1.25"
-        android:scaleY="1.25"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/baseline_keyboard_arrow_right_24"
-        android:layout_gravity="center_vertical"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:drawableTop="@drawable/ic_file_export"
+        android:textAllCaps="false"
+        android:text="Export"
+        android:textColor="@color/light_grey"/>
 
 </LinearLayout>

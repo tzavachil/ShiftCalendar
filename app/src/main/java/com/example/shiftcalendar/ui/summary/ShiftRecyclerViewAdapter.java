@@ -11,10 +11,12 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.ui.summary.tabs.MonthSelectorFragment;
+import com.example.shiftcalendar.ui.summary.tabs.SelectorFragment;
 
 import java.util.ArrayList;
 
@@ -22,13 +24,13 @@ public class ShiftRecyclerViewAdapter extends RecyclerView.Adapter<ShiftRecycler
 
     private ArrayList<ShiftRecyclerData> shiftDataArrayList;
     private Context context;
-    private MonthSelectorFragment parentMonthSelectorFragment;
+    private SelectorFragment parentSelectorFragment;
 
 
-    public ShiftRecyclerViewAdapter(ArrayList<ShiftRecyclerData> recyclerDataArrayList, Context context, MonthSelectorFragment monthSelectorFragment) {
+    public ShiftRecyclerViewAdapter(ArrayList<ShiftRecyclerData> recyclerDataArrayList, Context context, SelectorFragment selectorFragment) {
         this.shiftDataArrayList = recyclerDataArrayList;
         this.context = context;
-        this.parentMonthSelectorFragment = monthSelectorFragment;
+        this.parentSelectorFragment = selectorFragment;
     }
 
     @NonNull
@@ -85,11 +87,11 @@ public class ShiftRecyclerViewAdapter extends RecyclerView.Adapter<ShiftRecycler
                     if(shiftRecyclerViewLayout.isEnabled()) {
                         setViewAndChildrenEnabled(shiftRecyclerViewLayout, false);
                         shiftLayout.setEnabled(true);
-                        parentMonthSelectorFragment.displayOverviewWithoutShift(shiftNameTextView.getText().toString());
+                        parentSelectorFragment.displayOverviewWithoutShift(shiftNameTextView.getText().toString());
                     }
                     else {
                         setViewAndChildrenEnabled(shiftRecyclerViewLayout, true);
-                        parentMonthSelectorFragment.displayOverviewWithShift(shiftNameTextView.getText().toString());
+                        parentSelectorFragment.displayOverviewWithShift(shiftNameTextView.getText().toString());
                     }
                 }
             });
