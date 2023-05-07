@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import com.example.shiftcalendar.Shift;
 import com.example.shiftcalendar.ShiftDay;
 import com.example.shiftcalendar.ShiftDayList;
 import com.example.shiftcalendar.ui.DayDetailsBottomSheet;
+import com.example.shiftcalendar.ui.summary.ExportOptionsBottomSheet;
 import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerData;
 import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
 import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerViewAdapter;
@@ -43,6 +45,7 @@ public class MonthSelectorFragment extends SelectorFragment{
     private RecyclerView shiftDayRecyclerView;
     private TextView totalHours;
     private TextView totalExtraIncome;
+    private Button exportButton;
 
     private ShiftDayList shiftDayList;
     private ArrayList<ShiftDay> currShiftDayList;
@@ -75,6 +78,7 @@ public class MonthSelectorFragment extends SelectorFragment{
 
         this.previousMonthButton = view.findViewById(R.id.previousMonthButton);
         this.nextMonthButton = view.findViewById(R.id.nextMonthButton);
+        this.exportButton = view.findViewById(R.id.exportButton);
         this.setUpListeners();
 
         return view;
@@ -103,6 +107,12 @@ public class MonthSelectorFragment extends SelectorFragment{
                 monthTextView.setText(monthYearFromDate(now));
             }
         });
+        this.exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showExportOptions();
+            }
+        });
         this.monthTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -116,6 +126,11 @@ public class MonthSelectorFragment extends SelectorFragment{
             @Override
             public void afterTextChanged(Editable s) {}
         });
+    }
+
+    private void showExportOptions(){
+        ExportOptionsBottomSheet exportOptionsBottomSheet = new ExportOptionsBottomSheet(this.tempShiftDayList, this.monthTextView.getText().toString());
+        exportOptionsBottomSheet.show(this.getActivity().getSupportFragmentManager(), "TAG");
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

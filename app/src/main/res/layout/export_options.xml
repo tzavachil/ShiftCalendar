@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/slide_line"
+        android:layout_width="50dp"
+        android:layout_height="4dp"
+        android:background="@drawable/slide_line"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:layout_gravity="center"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginVertical="5dp">
+
+        <ImageButton
+            android:id="@+id/pdfExportButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_pdf_export"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="File's Destination and Name"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/pdfDestinationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/storage/emulated/shiftcalendar/exports/"/>
+
+            <TextView
+                android:id="@+id/pdfNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SC-January-2022.pdf"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageButton
+            android:id="@+id/excelExportButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleX="0.70"
+            android:scaleY="0.70"
+            android:background="@drawable/ic_excel_export"
+            android:layout_gravity="center_vertical"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="15dp"
+            android:layout_gravity="center_vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="File's Destination and Name"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/excelDestinationTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/storage/emulated/shiftcalendar/exports/"/>
+
+            <TextView
+                android:id="@+id/excelNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SC-January-2022.xls"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
