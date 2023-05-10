@@ -1,19 +1,35 @@
 package com.example.shiftcalendar.ui.summary;
 
+import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
+import com.example.shiftcalendar.MainActivity;
 import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.ShiftDay;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
@@ -33,13 +49,14 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
     public ExportOptionsBottomSheet(ArrayList<ShiftDay> shiftDayArrayList, String fileName){
         this.currShiftDayList = shiftDayArrayList;
         this.fileName = fileName.replaceAll(" ", "-");
-        this.fileDestination = this.getContext().getFilesDir().toString();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.export_options, container, false);
+
+        this.createExportsFolder();
 
         this.pdfDestinationTextView = view.findViewById(R.id.pdfDestinationTextView);
         this.pdfDestinationTextView.setText(this.fileDestination);
@@ -71,6 +88,25 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
 
             }
         });
+        this.pdfDestinationTextView.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.R)
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/Android/");
+                intent.setDataAndType(uri, "*/*");
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void createExportsFolder() {
+        this.fileDestination = Environment.getExternalStorageDirectory().getPath() + "/Shift Calendar/Exports/";
+        File exportDirectory = new File(this.fileDestination);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if(!exportDirectory.exists())
+                exportDirectory.mkdir();
+        }
     }
 
 }
