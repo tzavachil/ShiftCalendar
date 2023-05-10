@@ -92,10 +92,7 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
             @RequiresApi(api = Build.VERSION_CODES.R)
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                Uri uri = Uri.parse(Environment.getExternalStorageDirectory().getPath() + "/Android/");
-                intent.setDataAndType(uri, "*/*");
-                startActivity(intent);
+                //Create your own file explorer
             }
         });
     }
