@@ -65,7 +65,7 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
         this.excelDestinationTextView = view.findViewById(R.id.excelDestinationTextView);
         this.excelDestinationTextView.setText(this.fileDestination);
         this.excelNameTextView = view.findViewById(R.id.excelNameTextView);
-        this.excelNameTextView.setText("SC-" + this.fileName + ".xls");
+        this.excelNameTextView.setText("SC-" + this.fileName + ".xlsx");
 
         this.pdfExportButton = view.findViewById(R.id.pdfExportButton);
         this.excelExportButton = view.findViewById(R.id.excelExportButton);
@@ -85,7 +85,14 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
         this.excelExportButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String[] fileNameValues = fileName.split("-");
+                if(fileNameValues.length == 1){
 
+                } else if (fileNameValues.length == 2) {
+                    String month = fileNameValues[0];
+                    String year = fileNameValues[1];
+                    new ExcelCreator(getActivity(), month, year, currShiftDayList);
+                }
             }
         });
         this.pdfDestinationTextView.setOnClickListener(new View.OnClickListener() {

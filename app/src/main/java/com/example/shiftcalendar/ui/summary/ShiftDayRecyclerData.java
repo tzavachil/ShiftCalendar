@@ -43,7 +43,7 @@ public class ShiftDayRecyclerData {
         return weekDay;
     }
 
-    private String calculateTime(ShiftDay shiftDay) {
+    public static String calculateTime(ShiftDay shiftDay) {
 
         String startTime = shiftDay.getShift().getStartTime().toString();
         String endTime = shiftDay.getShift().getEndTime().toString();
