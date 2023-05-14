@@ -1,14 +1,11 @@
 package com.example.shiftcalendar.ui.summary;
 
-import android.util.Log;
-
 import com.example.shiftcalendar.ShiftDay;
 import com.example.shiftcalendar.ui.DayDetailsBottomSheet;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import android.icu.util.Calendar;
 import java.util.Locale;
 
 public class ShiftDayRecyclerData {

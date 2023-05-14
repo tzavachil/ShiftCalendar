@@ -1,14 +1,12 @@
 package com.example.shiftcalendar.ui.calendar;
 
-import android.os.Build;
-import android.util.Log;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,26 +19,23 @@ import java.util.ArrayList;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
 
     private final ArrayList<String> daysOfMonth;
-    private final OnItemListener onItemListener;
+    private Context context;
 
     private TextView monthYearTV;
-
     private Fragment rootFragment;
-
     private ShiftDayList shiftDayList;
-
     private ArrayList<Shift> shiftList;
 
-    public CalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener, TextView monthYearTV, Fragment rootFragment, ArrayList<Shift> sL, ShiftDayList sDL) {
+    public CalendarAdapter(ArrayList<String> daysOfMonth, Context context, TextView monthYearTV, Fragment rootFragment, ArrayList<Shift> sL, ShiftDayList sDL){
         this.daysOfMonth = daysOfMonth;
-        this.onItemListener = onItemListener;
+        this.context = context;
+
         this.monthYearTV = monthYearTV;
         this.rootFragment = rootFragment;
-        this.shiftList = sL;
         this.shiftDayList = sDL;
+        this.shiftList = sL;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -50,20 +45,18 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
         layoutParams.height = (int) (parent.getWidth() / 7);
 
-        return new CalendarViewHolder(view, onItemListener, this.monthYearTV, this.rootFragment, this.shiftList, this.shiftDayList);
+        return new CalendarViewHolder(view, this.monthYearTV, this.rootFragment, this.shiftList ,this.shiftDayList);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
-        holder.setText(String.valueOf(daysOfMonth.get(position)));
+        String day = this.daysOfMonth.get(position);
+        holder.setText(day);
         holder.displayShiftHolder();
     }
 
     @Override
-    public int getItemCount() { return daysOfMonth.size(); }
-
-    public interface OnItemListener{
-        void onItemClickListener(int position, String dayText);
+    public int getItemCount() {
+        return this.daysOfMonth.size();
     }
 }

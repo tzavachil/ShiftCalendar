@@ -5,16 +5,13 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
-
-import java.sql.Array;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Calendar;
+import android.icu.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 
 public class ShiftDayList {
 
@@ -95,8 +92,6 @@ public class ShiftDayList {
         ArrayList<ShiftDay> currShiftDayList = new ArrayList<>();
 
         for(ShiftDay shiftDay: this.shiftDaysList){
-            Log.d("Debug", calendarToLocalDate(shiftDay.getCalendar()) + " vs " + dateFrom + " = " + calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateFrom));
-            Log.d("Debug", calendarToLocalDate(shiftDay.getCalendar()) + " vs " + dateTo + " = " + calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateTo));
             if(calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateFrom) >= 0 && calendarToLocalDate(shiftDay.getCalendar()).compareTo(dateTo) <= 0){
                 currShiftDayList.add(shiftDay);
             }
@@ -107,7 +102,7 @@ public class ShiftDayList {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private LocalDate calendarToLocalDate(Calendar calendar){
-        return LocalDateTime.ofInstant(calendar.toInstant(), calendar.getTimeZone().toZoneId()).toLocalDate();
+        return LocalDateTime.ofInstant(calendar.getTime().toInstant(), ZoneId.systemDefault()).toLocalDate();
     }
 
     private String calendarToString(Calendar calendar){

@@ -2,12 +2,12 @@ package com.example.shiftcalendar.ui.calendar;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,7 +25,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-    public class CalendarFragment extends Fragment implements CalendarAdapter.OnItemListener{
+public class CalendarFragment extends Fragment{
 
     private FragmentCalendarBinding binding;
 
@@ -69,7 +69,7 @@ import java.util.ArrayList;
         monthYearText.setText(monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this, monthYearText, this, this.shiftList, this.shiftDayList);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this.getContext(), monthYearText, this, this.shiftList, this.shiftDayList);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
@@ -109,15 +109,6 @@ import java.util.ArrayList;
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onItemClickListener(int position, String dayText) {
-        if(dayText.equals("")){
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG);
-        }
     }
 
     private void setUpMonthButtonListeners(){

@@ -2,7 +2,7 @@ package com.example.shiftcalendar;
 
 import com.example.shiftcalendar.ui.calendar.CalendarViewHolder;
 
-import java.util.Calendar;
+import android.icu.util.Calendar;
 
 public class ShiftDay implements Comparable<ShiftDay>{
 

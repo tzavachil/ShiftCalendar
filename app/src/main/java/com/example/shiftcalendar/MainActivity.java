@@ -23,9 +23,8 @@ import com.example.shiftcalendar.ui.shifts.ShiftsFragment;
 import com.example.shiftcalendar.ui.summary.SummaryFragment;
 
 import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import android.icu.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
 
