@@ -1,6 +1,5 @@
 package com.example.shiftcalendar.ui.calendar;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,7 +42,6 @@ public class CalendarFragment extends Fragment{
         this.shiftDayList = sDL;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
@@ -64,7 +61,6 @@ public class CalendarFragment extends Fragment{
         return root;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setMonthView(){
         monthYearText.setText(monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
@@ -75,7 +71,6 @@ public class CalendarFragment extends Fragment{
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private ArrayList<String> daysInMonthArray(LocalDate date){
         ArrayList<String> daysInMonthArray = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);
@@ -99,7 +94,6 @@ public class CalendarFragment extends Fragment{
         return daysInMonthArray;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     private String monthYearFromDate(LocalDate date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyy");
         return date.format(formatter);
@@ -113,7 +107,6 @@ public class CalendarFragment extends Fragment{
 
     private void setUpMonthButtonListeners(){
         this.previousMonthBtn.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 selectedDate = selectedDate.minusMonths(1);
@@ -122,7 +115,6 @@ public class CalendarFragment extends Fragment{
         });
 
         this.nextMonthBtn.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
                 selectedDate = selectedDate.plusMonths(1);
