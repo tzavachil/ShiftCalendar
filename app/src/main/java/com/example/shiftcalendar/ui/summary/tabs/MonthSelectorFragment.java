@@ -1,9 +1,12 @@
 package com.example.shiftcalendar.ui.summary.tabs;
 
+import android.annotation.SuppressLint;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.shiftcalendar.R;
@@ -80,8 +84,24 @@ public class MonthSelectorFragment extends SelectorFragment{
         this.nextMonthButton = view.findViewById(R.id.nextMonthButton);
         this.exportButton = view.findViewById(R.id.exportButton);
         this.setUpListeners();
+        this.paintLines(view);
 
         return view;
+    }
+
+    private void paintLines(View view){
+        LinearLayout titleLayout = view.findViewById(R.id.monthYearLayout);
+        this.changeLineColor(titleLayout);
+        LinearLayout overviewLayout = view.findViewById(R.id.monthOverviewLayout);
+        this.changeLineColor(overviewLayout);
+        LinearLayout totalValuesLayout = view.findViewById(R.id.monthTotalValuesLayout);
+        this.changeLineColor(totalValuesLayout);
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void changeLineColor(LinearLayout layout){
+        GradientDrawable lineBackground = (GradientDrawable) layout.getBackground();
+        lineBackground.setStroke(3, ResourcesCompat.getColor(getResources(), R.color.dark_grey, null));
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -122,6 +122,7 @@
         android:layout_height="wrap_content"/>
 
     <LinearLayout
+        android:id="@+id/rangeOverviewLayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/rounded_gray_view"
@@ -143,6 +144,7 @@
             android:layout_weight="1"/>
 
         <LinearLayout
+            android:id="@+id/rangeTotalValuesLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
