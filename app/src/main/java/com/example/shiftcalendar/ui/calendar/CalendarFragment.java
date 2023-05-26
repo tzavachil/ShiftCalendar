@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,8 +32,8 @@ public class CalendarFragment extends Fragment{
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
 
-    private Button previousMonthBtn;
-    private Button nextMonthBtn;
+    private ImageButton previousMonthBtn;
+    private ImageButton nextMonthBtn;
 
     private ArrayList<Shift> shiftList;
     private ShiftDayList shiftDayList;
@@ -47,8 +48,8 @@ public class CalendarFragment extends Fragment{
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        previousMonthBtn = (Button) root.findViewById(R.id.previousMonthBtn);
-        nextMonthBtn = (Button) root.findViewById(R.id.nextMonthBtn);
+        previousMonthBtn = (ImageButton) root.findViewById(R.id.previousMonthBtn);
+        nextMonthBtn = (ImageButton) root.findViewById(R.id.nextMonthBtn);
 
         this.setUpMonthButtonListeners();
 

@@ -4,6 +4,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.util.Pair;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -21,8 +22,12 @@ import com.example.shiftcalendar.ShiftDayList;
 import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerData;
 import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerViewAdapter;
 import com.example.shiftcalendar.ui.summary.ShiftRecyclerViewAdapter;
+import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Locale;
 
 public class RangeSelectorFragment extends SelectorFragment {
 
@@ -84,6 +90,45 @@ public class RangeSelectorFragment extends SelectorFragment {
     }
 
     private void setUpListeners(){
+        this.fromTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDatePickerRange();
+            }
+        });
+        this.toTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDatePickerRange();
+            }
+        });
+    }
+
+    private void openDatePickerRange(){
+        MaterialDatePicker.Builder materialDateBuilder = MaterialDatePicker.Builder.dateRangePicker().setTheme(R.style.ThemeMaterialCalendar);
+        materialDateBuilder.setTitleText("SELECT A DATE");
+        MaterialDatePicker materialDatePicker = materialDateBuilder.build();
+        materialDatePicker.show(this.getParentFragmentManager(), "MATERIAL_DATE_PICKER");
+
+        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Object selection) {
+                Pair<Long, Long> datePair = (Pair) selection;
+                fromTextView.setText(convertTimeToDate(datePair.first));
+                toTextView.setText(convertTimeToDate(datePair.second));
+                LocalDate from = Instant.ofEpochMilli(datePair.first).atZone(ZoneId.systemDefault()).toLocalDate();
+                LocalDate to = Instant.ofEpochMilli(datePair.second).atZone(ZoneId.systemDefault()).toLocalDate();
+                searchOnList(from, to);
+            }
+        });
+
+    }
+
+    private String convertTimeToDate(Long time){
+        Calendar c = Calendar.getInstance();
+        c.setTimeInMillis(time);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+        return sdf.format(c.getTime());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

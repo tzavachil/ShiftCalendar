@@ -11,4 +11,9 @@
     <color name="green">#0BFD5D</color>
     <color name="orange">#FFB800</color>
     <color name="save_green">#00C8A0</color>
+
+    <color name="colorPrimary">#0EF6CC</color>
+    <color name="colorSecondary">#3A4F50</color>
+    <color name="colorBackground">#1B2223</color>
+
 </resources>

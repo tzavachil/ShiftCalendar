@@ -1,6 +1,18 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="Theme.ShiftCalendar" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="Theme.ShiftCalendar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorSecondary">@color/colorSecondary</item>
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="colorError">@color/red</item>
+
+        <!-- Defining that new color in ColorPrimaryDark -->
+        <item name="colorPrimaryDark">@color/colorPrimary</item>
+        <item name="colorAccent">@color/colorSecondary</item>
+    </style>
+
+    <style name="ThemeMaterialCalendar" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:windowFullscreen">false</item>
     </style>
 
     <style name="MyTabTextAppearance" parent="TextAppearance.Design.Tab">
