@@ -389,8 +389,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         if ("ColorPickerTag".equals(dialogTag) && which == BUTTON_POSITIVE){
             int newColor = extras.getInt(SimpleColorDialog.COLOR);
             this.backgroundColorId.setText(String.format("%06X", (0xFFFFFF & newColor)));
-            this.currShift.setBackgroundColor(newColor);
-            setUpColors();
+            setUpColors(newColor);
             return true;
         }
         return false;

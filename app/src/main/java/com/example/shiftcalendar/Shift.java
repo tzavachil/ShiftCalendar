@@ -28,7 +28,7 @@ public class Shift implements Comparable<Shift> {
     public Shift(Context context){
         this.name = "";
         this.lineColor = context.getColor(R.color.light_grey);
-        this.backgroundColor = context.getColor(R.color.white);
+        this.backgroundColor = context.getColor(R.color.colorSecondary);
         this.startTime = new Time(6,0,0);
         this.endTime = new Time(14, 0, 0);
         this.incomePerHour = 0;
