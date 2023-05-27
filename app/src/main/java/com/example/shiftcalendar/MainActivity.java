@@ -1,6 +1,7 @@
 package com.example.shiftcalendar;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -11,6 +12,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,7 @@ import com.example.shiftcalendar.ui.summary.SummaryFragment;
 import java.sql.Time;
 import java.util.ArrayList;
 import android.icu.util.Calendar;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,20 +42,37 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (!Environment.isExternalStorageManager()) { //request for the permission
-                Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
-                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                intent.setData(uri);
-                startActivity(intent);
+            if (!Environment.isExternalStorageManager()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+
+                builder.setMessage("Allow access to manage all files?");
+                builder.setTitle("All files access");
+                builder.setCancelable(false);
+
+                builder.setPositiveButton("ALLOW", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                });
+
+                builder.setNegativeButton("DENY", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    Toast.makeText(this, "You can't extract your calendar data", Toast.LENGTH_LONG).show();
+                    dialog.cancel();
+                });
+
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
-        } else {
-            //below android 11=======
+        }
+        else {
             ActivityCompat.requestPermissions(this, new String[]{
                     Manifest.permission.WRITE_EXTERNAL_STORAGE,
                     Manifest.permission.READ_EXTERNAL_STORAGE,
                     Manifest.permission.MANAGE_EXTERNAL_STORAGE
             }, PackageManager.PERMISSION_GRANTED);
-    }
+        }
 
         lightGray = getResources().getColor(R.color.light_grey);
 
