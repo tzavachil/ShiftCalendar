@@ -61,11 +61,11 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
         this.pdfDestinationTextView = view.findViewById(R.id.pdfDestinationTextView);
         this.pdfDestinationTextView.setText(this.fileDestination);
         this.pdfNameTextView = view.findViewById(R.id.pdfNameTextView);
-        this.pdfNameTextView.setText("SC-" + this.fileName + ".pdf");
+        this.pdfNameTextView.setText("SC-" + this.fileName.replaceAll("/", "") + ".pdf");
         this.excelDestinationTextView = view.findViewById(R.id.excelDestinationTextView);
         this.excelDestinationTextView.setText(this.fileDestination);
         this.excelNameTextView = view.findViewById(R.id.excelNameTextView);
-        this.excelNameTextView.setText("SC-" + this.fileName + ".xlsx");
+        this.excelNameTextView.setText("SC-" + this.fileName.replaceAll("/", "") + ".xlsx");
 
         this.pdfExportButton = view.findViewById(R.id.pdfExportButton);
         this.excelExportButton = view.findViewById(R.id.excelExportButton);
@@ -87,12 +87,14 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 String[] fileNameValues = fileName.split("-");
                 if(fileNameValues.length == 1){
-
+                    String year = fileNameValues[0];
+                    new ExcelCreator(getActivity(), year, currShiftDayList);
                 } else if (fileNameValues.length == 2) {
                     String month = fileNameValues[0];
                     String year = fileNameValues[1];
                     new ExcelCreator(getActivity(), month, year, currShiftDayList);
                 }
+                callDismiss();
             }
         });
         this.pdfDestinationTextView.setOnClickListener(new View.OnClickListener() {
@@ -111,6 +113,10 @@ public class ExportOptionsBottomSheet extends BottomSheetDialogFragment {
             if(!exportDirectory.exists())
                 exportDirectory.mkdir();
         }
+    }
+
+    private void callDismiss(){
+        this.dismiss();
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.shiftcalendar.ui.summary;
 
 import android.app.Activity;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.shiftcalendar.ShiftDay;
@@ -53,14 +54,35 @@ public class ExcelCreator {
     int totalHours;
     int totalMin;
 
+    private String possibleStartDate;
+    private String possibleEndDate;
+
     public ExcelCreator(Activity parentActivity, String month, String year, ArrayList<ShiftDay> data){
 
         this.data = data;
         this.totalHours = 0;
         this.totalMin = 0;
         this.calendarWorkbook = new XSSFWorkbook();
+        if(month.contains("/") && year.contains("/")){
+            this.possibleStartDate = month;
+            month = this.possibleStartDate.replaceAll("/", "");
+            this.possibleEndDate = year;
+            year = this.possibleEndDate.replaceAll("/", "");
+        }
         this.createExcel(month + " " + year);
         if(this.storeExcelInStorage("SC-" + month + "-" + year)){
+            Toast.makeText(parentActivity, "Save Complete!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public ExcelCreator(Activity parentActivity, String year, ArrayList<ShiftDay> data){
+
+        this.data = data;
+        this.totalHours = 0;
+        this.totalMin = 0;
+        this.calendarWorkbook = new XSSFWorkbook();
+        this.createExcel(year);
+        if(this.storeExcelInStorage("SC-" + year)){
             Toast.makeText(parentActivity, "Save Complete!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -77,7 +99,10 @@ public class ExcelCreator {
         CellRangeAddress range = new CellRangeAddress(row,row,0,3);
         this.addBorderToRange(range, sheet);
         sheet.addMergedRegion(range);
-        dataDateRangeHeader.setCellValue(sheetName);
+        if(this.possibleStartDate != null && this.possibleEndDate != null)
+            dataDateRangeHeader.setCellValue(this.possibleStartDate + " - " + this.possibleEndDate);
+        else
+            dataDateRangeHeader.setCellValue(sheetName);
         dataDateRangeHeader.setCellStyle(this.headerGreenCellStyle);
         row++;
 

@@ -1,31 +1,43 @@
 package com.example.shiftcalendar.ui.summary.tabs;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.Shift;
 import com.example.shiftcalendar.ShiftDay;
 import com.example.shiftcalendar.ShiftDayList;
+import com.example.shiftcalendar.ui.summary.ExportOptionsBottomSheet;
 import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerData;
 import com.example.shiftcalendar.ui.summary.ShiftDayRecyclerViewAdapter;
 import com.example.shiftcalendar.ui.summary.ShiftRecyclerData;
@@ -47,6 +59,7 @@ public class YearSelectorFragment extends SelectorFragment {
     private RecyclerView shiftDayRecyclerView;
     private TextView totalHours;
     private TextView totalExtraIncome;
+    private Button exportButton;
 
     private ShiftDayList shiftDayList;
     private ArrayList<ShiftDay> currShiftDayList;
@@ -80,6 +93,7 @@ public class YearSelectorFragment extends SelectorFragment {
 
         this.previousYearButton = view.findViewById(R.id.previousYearButton);
         this.nextYearButton = view.findViewById(R.id.nextYearButton);
+        this.exportButton = view.findViewById(R.id.exportYearButton);
         this.setUpListeners();
 
         return view;
@@ -108,6 +122,10 @@ public class YearSelectorFragment extends SelectorFragment {
                 yearTextView.setText(yearFromDate(now));
             }
         });
+        this.exportButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { checkForPermission(); }
+        });
         this.yearTextView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
@@ -121,6 +139,52 @@ public class YearSelectorFragment extends SelectorFragment {
             @Override
             public void afterTextChanged(Editable editable) {}
         });
+    }
+
+    private void checkForPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (!Environment.isExternalStorageManager()) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+
+                builder.setMessage("Allow access to manage all files?");
+                builder.setTitle("All files access");
+                builder.setCancelable(false);
+
+                builder.setPositiveButton("ALLOW", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
+                    Uri uri = Uri.fromParts("package", this.getActivity().getPackageName(), null);
+                    intent.setData(uri);
+                    startActivity(intent);
+                });
+
+                builder.setNegativeButton("DENY", (DialogInterface.OnClickListener) (dialog, which) -> {
+                    Toast.makeText(this.getActivity(), "You can't extract your calendar data", Toast.LENGTH_LONG).show();
+                    dialog.cancel();
+                });
+
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
+            }
+            else showExportOptions();
+        }
+        else {
+            ActivityCompat.requestPermissions(this.getActivity(), new String[]{
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.MANAGE_EXTERNAL_STORAGE
+            }, PackageManager.PERMISSION_GRANTED);
+            showExportOptions();
+        }
+    }
+
+    private void showExportOptions(){
+        if(this.currShiftDayList.size() > 0){
+            ExportOptionsBottomSheet exportOptionsBottomSheet = new ExportOptionsBottomSheet(this.tempShiftDayList, this.yearTextView.getText().toString());
+            exportOptionsBottomSheet.show(this.getActivity().getSupportFragmentManager(), "TAG");
+        } else {
+            Toast.makeText(this.getContext(), "No data to extract", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
