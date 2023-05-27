@@ -4,6 +4,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -66,6 +68,8 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     private int color;
     private View convertView;
 
+    private Context context;
+
     private ShiftAdapter currShiftAdapter;
 
     public ShiftDetailsBottomSheet(Shift s, View convertView){
@@ -76,6 +80,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
 
     public ShiftDetailsBottomSheet(Context context, ShiftAdapter shiftAdapter){
         this.currShift = new Shift(context);
+        this.context = context;
         this.currShift.setName("New Shift");
         this.color = currShift.getBackgroundColor();
         this.convertView = null;
@@ -107,7 +112,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         this.shiftNameEditText.setText(this.currShift.getName());
         this.incomePerHour.setText(String.valueOf(this.currShift.getIncomePerHour()));
         this.incomePerExtraHour.setText(String.valueOf(this.currShift.getIncomePerExtraHour()));
-        this.backgroundColorView.getBackground().setColorFilter(currShift.getBackgroundColor(), PorterDuff.Mode.SRC_IN);
+        this.setColor(this.backgroundColorView, currShift.getBackgroundColor());
         this.backgroundColorId.setText(String.format("%06X", (0xFFFFFF & currShift.getBackgroundColor())));
 
         try {
@@ -219,7 +224,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
                         if(newColor != currShift.getBackgroundColor()) {
                             Log.d("Debug", "New Color: " + String.format("#%06X", (0xFFFFFF & newColor)));
                             Log.d("Debug", "New Color: " + String.format("#%06X", (0xFFFFFF & currShift.getBackgroundColor())));
-                            backgroundColorView.getBackground().setColorFilter(newColor, PorterDuff.Mode.SRC_IN);
+                            setColor(backgroundColorView, newColor);
                             backgroundColorId.setTextColor(Color.BLACK);
                             color = newColor;
                             setUpColors(color);
@@ -246,6 +251,8 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         boolean save = false;
 
         //Save color
+        //ColorDrawable viewBG = (ColorDrawable) this.backgroundColorView.getBackground();
+        //Can't save any color bcz in 'if' i check the shift's background which is not changed until it saved
         if(this.currShift.getBackgroundColor() != Color.WHITE) {
             this.currShift.setBackgroundColor(this.color);
             this.backgroundColorId.setTextColor(Color.BLACK);
@@ -352,6 +359,9 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
     private void setUpColors(){
 
         int shiftColor = this.currShift.getBackgroundColor();
+        if(this.context != null && shiftColor == context.getResources().getColor(R.color.white, context.getTheme())){
+            shiftColor = this.currShift.getLineColor();
+        }
 
         this.setStroke(this.shiftTimeLayout, shiftColor);
         this.setStroke(this.incomeLayout, shiftColor);
@@ -360,7 +370,8 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         this.setColor(this.incomeLine, shiftColor);
         this.setStroke(this.incomePerHour, shiftColor);
         this.setStroke(this.incomePerExtraHour, shiftColor);
-        this.backgroundColorView.getBackground().setColorFilter(shiftColor, PorterDuff.Mode.SRC_IN);
+        this.setStroke(this.backgroundColorView, this.currShift.getLineColor());
+        this.setColor(this.backgroundColorView, currShift.getBackgroundColor());
     }
 
     private void setUpColors(int color){
@@ -371,7 +382,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         this.setColor(this.incomeLine, color);
         this.setStroke(this.incomePerHour, color);
         this.setStroke(this.incomePerExtraHour, color);
-        this.backgroundColorView.getBackground().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+        this.setColor(this.backgroundColorView, color);
     }
 
     private void setStroke(View view, int color){
