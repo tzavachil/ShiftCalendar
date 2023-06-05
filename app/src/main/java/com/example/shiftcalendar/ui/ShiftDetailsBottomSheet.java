@@ -2,11 +2,14 @@ package com.example.shiftcalendar.ui;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -251,16 +254,21 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
         boolean save = false;
 
         //Save color
-        //ColorDrawable viewBG = (ColorDrawable) this.backgroundColorView.getBackground();
-        //Can't save any color bcz in 'if' i check the shift's background which is not changed until it saved
-        if(this.currShift.getBackgroundColor() != Color.WHITE) {
-            this.currShift.setBackgroundColor(this.color);
-            this.backgroundColorId.setTextColor(Color.BLACK);
-            save = true;
-            dismiss();
-        }
-        else
-            this.backgroundColorId.setTextColor(Color.RED);
+        Drawable viewBG = this.backgroundColorView.getBackground();
+        if(viewBG instanceof GradientDrawable){
+            GradientDrawable drawable = (GradientDrawable) viewBG;
+            ColorStateList colorStateList = drawable.getColor();
+            int[] state = drawable.getState();
+            int color = colorStateList.getColorForState(state, 0);
+            if(color != Color.WHITE) {
+                this.currShift.setBackgroundColor(this.color);
+                this.backgroundColorId.setTextColor(Color.BLACK);
+                save = true;
+                dismiss();
+            }
+            else
+                this.backgroundColorId.setTextColor(Color.RED);
+        } //Haven't try it yet!
 
         //Save name
         this.currShift.setName(this.shiftNameEditText.getText().toString());
