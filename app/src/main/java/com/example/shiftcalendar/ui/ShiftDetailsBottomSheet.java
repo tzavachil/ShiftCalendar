@@ -268,7 +268,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             }
             else
                 this.backgroundColorId.setTextColor(Color.RED);
-        } //Haven't try it yet!
+        }
 
         //Save name
         this.currShift.setName(this.shiftNameEditText.getText().toString());
