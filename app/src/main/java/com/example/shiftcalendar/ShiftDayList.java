@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import android.icu.util.Calendar;
 import java.util.Collections;
 
-public class ShiftDayList {
+public class ShiftDayList implements Serializable {
 
     private ArrayList<ShiftDay> shiftDaysList;
 
@@ -121,7 +122,7 @@ public class ShiftDayList {
 
     public void print(){
         for(ShiftDay shiftDay: this.shiftDaysList){
-            Log.d("Debug", calendarToString(shiftDay.getCalendar()));
+            Log.d("Debug", calendarToString(shiftDay.getCalendar()) + " with Shift Name: " + shiftDay.getShift().getName());
         }
     }
 

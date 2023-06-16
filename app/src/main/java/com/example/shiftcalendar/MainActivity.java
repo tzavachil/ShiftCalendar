@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private ShiftDayList shiftDayList;
     public static int lightGray;
 
+    public Content content;
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,10 +78,15 @@ public class MainActivity extends AppCompatActivity {
 
         lightGray = getResources().getColor(R.color.light_grey);
 
-        shiftList = new ArrayList<>();
+        /*shiftList = new ArrayList<>();
         this.shiftDayList = new ShiftDayList();
         this.initializingShifts();
-        this.initializingDays();
+        this.initializingDays();*/
+
+        Shift emptyShift = new Shift(this);
+        this.content = new Content(emptyShift);
+        shiftList = content.getShiftList();
+        this.shiftDayList = content.getShiftDayList();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -102,6 +109,20 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
 
+    }
+
+    @Override
+    protected void onPause() {
+        this.content.printContent();
+        this.content.extractAll();
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        this.content.printContent();
+        this.content.extractAll();
+        super.onStop();
     }
 
     //Temp
@@ -133,13 +154,13 @@ public class MainActivity extends AppCompatActivity {
     //Temp
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void initializingShifts(){
-        Shift emptyShift = new Shift(this);
+        //Shift emptyShift = new Shift(this);
         Shift shift1 = new Shift("Shift 1", getResources().getColor(R.color.blue), new Time(7,0,0), new Time(15, 0, 0), 4.0, 4.4);
         Shift shift2 = new Shift("Shift 2", getResources().getColor(R.color.red), new Time(6,0,0), new Time(14, 0, 0), 0, 0);
         Shift shift3 = new Shift("Shift 3", getResources().getColor(R.color.green), new Time(15,0,0), new Time(23, 0, 0), 4.0, 4.4);
         Shift shift4 = new Shift("Shift 4", getResources().getColor(R.color.orange), new Time(14,0,0), new Time(22, 0, 0), 1, 2);
 
-        this.shiftList.add(emptyShift);
+        //this.shiftList.add(emptyShift);
         this.shiftList.add(shift1);
         this.shiftList.add(shift2);
         this.shiftList.add(shift3);

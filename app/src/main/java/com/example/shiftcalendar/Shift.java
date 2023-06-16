@@ -2,10 +2,11 @@ package com.example.shiftcalendar;
 
 import android.content.Context;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Collection;
 
-public class Shift implements Comparable<Shift> {
+public class Shift implements Comparable<Shift>, Serializable {
 
     private String name;
     private int lineColor;

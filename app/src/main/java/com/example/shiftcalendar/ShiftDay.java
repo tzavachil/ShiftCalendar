@@ -4,11 +4,12 @@ import com.example.shiftcalendar.ui.calendar.CalendarViewHolder;
 
 import android.icu.util.Calendar;
 
-public class ShiftDay implements Comparable<ShiftDay>{
+import java.io.Serializable;
+
+public class ShiftDay implements Comparable<ShiftDay>, Serializable {
 
     private Calendar calendar;
     private int color;
-    private CalendarViewHolder calendarViewHolder;
     private Shift shift;
     private String notes;
     private int earlyExitHours;
@@ -19,10 +20,9 @@ public class ShiftDay implements Comparable<ShiftDay>{
     private double incomePerExtraHour;
     private double extraIncome;
 
-    public ShiftDay(Calendar c, CalendarViewHolder cvh){
+    public ShiftDay(Calendar c){
         this.calendar = c;
         this.color = R.color.light_grey;
-        this.calendarViewHolder = cvh;
         this.shift = null;
         this.notes = null;
     }
@@ -67,12 +67,6 @@ public class ShiftDay implements Comparable<ShiftDay>{
     public void setColor(int color) {
         this.color = color;
     }
-
-    public CalendarViewHolder getCalendarViewHolder() {
-        return calendarViewHolder;
-    }
-
-    public void setCalendarViewHolder(CalendarViewHolder calendarViewHolder) { this.calendarViewHolder = calendarViewHolder; }
 
     public Shift getShift() { return shift; }
 

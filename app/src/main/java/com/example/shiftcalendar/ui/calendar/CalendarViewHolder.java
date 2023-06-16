@@ -22,6 +22,7 @@ import com.example.shiftcalendar.ui.DayDetailsBottomSheet;
 
 import org.apache.commons.math3.distribution.LogisticDistribution;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
@@ -29,7 +30,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class CalendarViewHolder extends RecyclerView.ViewHolder{
+public class CalendarViewHolder extends RecyclerView.ViewHolder implements Serializable {
 
     private TextView dayOfMonth;
     private ConstraintLayout layout;
@@ -144,7 +145,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder{
         Calendar tempCal = Calendar.getInstance();
         tempCal.set(currYear, currMonth, currDay);
 
-        return new ShiftDay(tempCal, this);
+        return new ShiftDay(tempCal);
     }
 
     private int getNumberFromMonthName(String monthName){
