@@ -8,9 +8,10 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Content {
+public class Content implements Serializable {
 
     private ShiftDayList shiftDayList;
     private ArrayList<Shift> shiftList;
@@ -26,8 +27,9 @@ public class Content {
     }
 
     public void extractAll(){
-        this.extractShiftList();
-        this.extractShiftDayList();
+        //this.extractShiftList();
+        //this.extractShiftDayList();
+        this.extractData(this, "personalCalendarData.dat");
     }
 
     public void extractShiftDayList(){
@@ -40,12 +42,21 @@ public class Content {
     }
 
     public void loadLists(Shift emptyShift) {
-        this.shiftDayList = (ShiftDayList) this.loadData("shiftDayList.dat");
+        Content currContent = (Content) this.loadData("personalCalendarData.dat");
+        if(currContent == null){
+            this.shiftDayList = new ShiftDayList();
+            this.shiftList = new ArrayList<>();
+        }
+        else {
+            this.shiftDayList = currContent.getShiftDayList();
+            this.shiftList = currContent.getShiftList();
+        }
+        /*this.shiftDayList = (ShiftDayList) this.loadData("shiftDayList.dat");
         if(this.shiftDayList == null)
             this.shiftDayList = new ShiftDayList();
         this.shiftList = (ArrayList<Shift>) this.loadData("shifts.dat");
         if(this.shiftList == null)
-            this.shiftList = new ArrayList<>();
+            this.shiftList = new ArrayList<>();*/
         if(this.shiftList.size() == 0)
             this.shiftList.add(emptyShift);
 
