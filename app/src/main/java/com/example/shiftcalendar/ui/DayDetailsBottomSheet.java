@@ -231,6 +231,7 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
                 this.extraTimeLayout.setVisibility(View.GONE);
                 this.totalTimeLayout.setVisibility(View.GONE);
                 this.incomeLayout.setVisibility(View.GONE);
+                this.notesAddButton.setVisibility(View.GONE);
                 break;
             case 1:
                 this.shiftTimeLayout.setVisibility(View.VISIBLE);
@@ -238,6 +239,7 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
                 this.extraTimeLayout.setVisibility(View.VISIBLE);
                 this.totalTimeLayout.setVisibility(View.VISIBLE);
                 this.incomeLayout.setVisibility(View.VISIBLE);
+                this.notesAddButton.setVisibility(View.VISIBLE);
                 break;
         }
     }
