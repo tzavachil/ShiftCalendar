@@ -78,11 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
         lightGray = getResources().getColor(R.color.light_grey);
 
-        /*shiftList = new ArrayList<>();
-        this.shiftDayList = new ShiftDayList();
-        this.initializingShifts();
-        this.initializingDays();*/
-
         Shift emptyShift = new Shift(this);
         this.content = new Content(emptyShift);
         shiftList = content.getShiftList();
@@ -102,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                     replaceFragment(new SummaryFragment(this.shiftDayList));
                     break;
                 case R.id.navigation_shifts:
-                    replaceFragment(new ShiftsFragment(this.shiftList));
+                    replaceFragment(new ShiftsFragment(this.shiftList, this.shiftDayList));
                     break;
             }
 

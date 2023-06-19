@@ -39,6 +39,13 @@ public class ShiftDayList implements Serializable {
         return tempShiftDay;
     }
 
+    public boolean contains(Shift s){
+        for(ShiftDay shiftDay: this.shiftDaysList){
+            if(shiftDay.getShift().equals(s)) return true;
+        }
+        return false;
+    }
+
     public ShiftDay contains(int day, int month, int year){
         ShiftDay tempShiftDay = null;
         month--;

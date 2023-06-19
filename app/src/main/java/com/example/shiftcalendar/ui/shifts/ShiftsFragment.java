@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.Shift;
+import com.example.shiftcalendar.ShiftDayList;
 import com.example.shiftcalendar.databinding.FragmentShiftsBinding;
 import com.example.shiftcalendar.ui.ShiftDetailsBottomSheet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -22,11 +23,13 @@ public class ShiftsFragment extends Fragment {
     private FragmentShiftsBinding binding;
 
     private ArrayList<Shift> shiftList;
+    private ShiftDayList shiftDayList;
 
     private FloatingActionButton fab;
     private ListView shiftListView;
 
-    public ShiftsFragment(ArrayList<Shift> sL){
+    public ShiftsFragment(ArrayList<Shift> sL, ShiftDayList sDL){
+        this.shiftDayList = sDL;
         this.shiftList = sL;
     }
 
@@ -42,7 +45,7 @@ public class ShiftsFragment extends Fragment {
         ArrayList<Shift> newShiftList = new ArrayList<>(this.shiftList);
         if(newShiftList.get(0).getName().equals(""))
             newShiftList.remove(0);
-        ShiftAdapter shiftAdapter = new ShiftAdapter(this, newShiftList);
+        ShiftAdapter shiftAdapter = new ShiftAdapter(this, newShiftList, this.shiftDayList);
         this.setUpListeners(this, shiftAdapter);
 
         this.shiftListView.setAdapter(shiftAdapter);

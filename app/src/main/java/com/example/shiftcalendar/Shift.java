@@ -57,7 +57,7 @@ public class Shift implements Comparable<Shift>, Serializable {
         if(this == o) return true;
         if(o == null || getClass() != o.getClass()) return false;
         Shift s = (Shift) o;
-        return this.name.equals(s.getName());
+        return this.name.equals(s.getName()) && (this.backgroundColor == ((Shift) o).getBackgroundColor());
     }
 
     public String getName() {return name;}
