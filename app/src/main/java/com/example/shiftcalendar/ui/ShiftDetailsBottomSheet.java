@@ -262,6 +262,7 @@ public class ShiftDetailsBottomSheet extends BottomSheetDialogFragment implement
             int color = colorStateList.getColorForState(state, 0);
             if(color != Color.WHITE) {
                 this.currShift.setBackgroundColor(this.color);
+                this.currShift.setLineColor(this.color);
                 this.backgroundColorId.setTextColor(Color.BLACK);
                 save = true;
                 dismiss();
