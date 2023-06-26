@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shiftcalendar.R;
@@ -29,6 +30,7 @@ public class CalendarFragment extends Fragment{
     private FragmentCalendarBinding binding;
 
     private TextView monthYearText;
+    private SwipeRecyclerViewGroup swipeRecyclerViewGroup;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
 
@@ -53,7 +55,8 @@ public class CalendarFragment extends Fragment{
 
         this.setUpMonthButtonListeners();
 
-        calendarRecyclerView = (RecyclerView) root.findViewById(R.id.calendarRecyclerView);
+        swipeRecyclerViewGroup = root.findViewById(R.id.calendarRecyclerView);
+        calendarRecyclerView = new RecyclerView(root.getContext());
         monthYearText = (TextView) root.findViewById(R.id.monthYearTV);
 
         selectedDate = LocalDate.now();
@@ -62,7 +65,7 @@ public class CalendarFragment extends Fragment{
         return root;
     }
 
-    private void setMonthView(){
+    public void setMonthView(){
         monthYearText.setText(monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
@@ -70,6 +73,9 @@ public class CalendarFragment extends Fragment{
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
+        swipeRecyclerViewGroup.addAttributes(this);
+        swipeRecyclerViewGroup.removeAllViews();
+        swipeRecyclerViewGroup.addView(calendarRecyclerView);
     }
 
     private ArrayList<String> daysInMonthArray(LocalDate date){
@@ -123,4 +129,14 @@ public class CalendarFragment extends Fragment{
             }
         });
     }
+
+    public void decreaseMonth(){
+        selectedDate = selectedDate.minusMonths(1);
+        setMonthView();
+    }
+
+    public void increaseMonth(){
+        selectedDate = selectedDate.plusMonths(1);
+        setMonthView();}
+
 }
