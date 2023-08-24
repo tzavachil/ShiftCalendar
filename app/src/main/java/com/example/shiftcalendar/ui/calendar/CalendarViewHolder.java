@@ -71,7 +71,7 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements Seria
 
     private void showBottomSheet(){
         this.myShiftDay.setDay(this.dayOfMonth.getText().toString());
-        DayDetailsBottomSheet bottomSheetDayDetails = new DayDetailsBottomSheet(this.getDateToString(), this.myShiftDay, this.shiftList, this);
+        DayDetailsBottomSheet bottomSheetDayDetails = new DayDetailsBottomSheet(this.getDateToString(), this.myShiftDay, this.shiftList, this.shiftDayList, this);
         bottomSheetDayDetails.show(rootFragment.getActivity().getSupportFragmentManager(), "TAG");
     }
 
@@ -93,8 +93,10 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements Seria
             if(currShiftDay != null){
                 //Paint the holder with day's shift
                 this.setBackgroundColor(currShiftDay.getShift().getBackgroundColor());
-                if(!this.isToday(thisDay))
+                if(!this.isToday(thisDay)) {
                     this.setTextColor();
+                    this.dayOfMonth.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
+                }
                 else {
                     this.setTextColor(Color.BLACK);
                     this.dayOfMonth.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
@@ -132,6 +134,8 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements Seria
         this.shiftDayList.addDay(currShiftDay);
         this.shiftDayList.print();
         this.shiftDayList.sort();
+        if(currShiftDay.getShift() != null && isToday(getText()))
+            setTypeFace(Typeface.BOLD);
     }
 
     public ShiftDay createCurrentShiftDay(){
@@ -187,6 +191,14 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements Seria
         String thisYear = tempTable[1];
 
         return (nowDay.equals(thisDay)) && (nowMonth.equals(thisMonth) && (nowYear.equals(thisYear)));
+    }
+
+    public String getText(){
+        return this.dayOfMonth.getText().toString();
+    }
+
+    public void setTypeFace(int style){
+        this.dayOfMonth.setTypeface(Typeface.defaultFromStyle(style));
     }
 
 }

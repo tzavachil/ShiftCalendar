@@ -1,6 +1,7 @@
 package com.example.shiftcalendar.ui;
 
 import android.content.res.ColorStateList;
+import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,6 +24,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.shiftcalendar.R;
 import com.example.shiftcalendar.Shift;
 import com.example.shiftcalendar.ShiftDay;
+import com.example.shiftcalendar.ShiftDayList;
 import com.example.shiftcalendar.ui.calendar.CalendarViewHolder;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
@@ -43,6 +45,7 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
     private View view;
     private CalendarViewHolder calendarViewHolder;
     private ShiftDay myShiftDay;
+    private ShiftDayList sdl;
 
     private String date;
     private String notes;
@@ -105,10 +108,11 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
     private TextView incomePerHourTV;
     private TextView incomePerExtraHourTV;
 
-    public DayDetailsBottomSheet(String date, ShiftDay myShiftDay, ArrayList<Shift> sL, CalendarViewHolder cvh){
+    public DayDetailsBottomSheet(String date, ShiftDay myShiftDay, ArrayList<Shift> sL, ShiftDayList sdl, CalendarViewHolder cvh){
 
         this.shiftList = sL;
         this.calendarViewHolder = cvh;
+        this.sdl = sdl;
 
         //Day Data Initialization
         this.myShiftDay = myShiftDay;
@@ -275,7 +279,9 @@ public class DayDetailsBottomSheet extends BottomSheetDialogFragment {
                 displayDetails(1);
                 if(selectedShift.getName().equals("")) {
                     calendarViewHolder.setEmptyTextColor();
-                    myShiftDay.setShift(null);
+                    calendarViewHolder.setText(calendarViewHolder.getText());
+                    sdl.removeDay(myShiftDay);
+                    calendarViewHolder.setTypeFace(Typeface.NORMAL);
                     displayDetails(0);
                 } else {
                     calendarViewHolder.saveDayChanges(myShiftDay);

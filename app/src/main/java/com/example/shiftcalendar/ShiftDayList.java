@@ -30,6 +30,10 @@ public class ShiftDayList implements Serializable {
         this.shiftDaysList.add(day);
     }
 
+    public void removeDay(ShiftDay day){
+        this.shiftDaysList.remove(this.contains(day));
+    }
+
     public ShiftDay contains(ShiftDay day) {
         ShiftDay tempShiftDay = null;
         for(ShiftDay sd: this.shiftDaysList){
